@@ -359,8 +359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca051ee97a605d948be9f3afd53547e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrain: {fileID: 590039936}
-  radius: 2
 --- !u!4 &229075437 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 370872769283500246, guid: 94efbb2f6455fd34d91f5beb78060e07, type: 3}
@@ -675,7 +673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &367340753
 RectTransform:
   m_ObjectHideFlags: 0
