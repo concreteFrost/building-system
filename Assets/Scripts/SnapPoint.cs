@@ -6,10 +6,12 @@ public enum SnapType
     Surface,
     Wall,
     Stairs,
-    RoofBase,
-    RoofSlope,
-    RoofFlat,
+    RoofJoist,
+    RoofRake,
+    RoofRakeFlat,
     RoofFront,
+    RoofCover,
+    RoofCoverFlat
 }
 
 public class SnapPoint : MonoBehaviour

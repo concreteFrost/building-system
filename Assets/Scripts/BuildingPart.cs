@@ -1,22 +1,21 @@
-
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public enum FlipType
-{
-    zAxis,
-    xAxis
-}
+
 public class BuildingPart : MonoBehaviour
 {
+    public BuildingPartSO buildingPartSO;
+    public int id;
+
     public SnapType snapType;
     public GameObject snapPoints;
     public GameObject part;
+    public GameObject parentNode;
 
     public List<SnapPoint> snapPointsList = new List<SnapPoint>();
-   
+
     public Vector3 overlapSize;
     public Vector3 overlapPosition;
 
@@ -25,53 +24,47 @@ public class BuildingPart : MonoBehaviour
     public bool isTouchingGround;
     public bool isRequeriedOverlap;
 
-    public Material defaultMaterial;
-    public GameObject parentNode;
     public PhysicMaterial buildingMaterial;
-    public FlipType flipType;
-    
-    
 
-
-    private void Awake()
+    private void Update()
     {
-        if (snapPoints != null)
+
+        if (snapPoints != null && !isPlaced)
         {
             snapPointsList = snapPoints.GetComponentsInChildren<SnapPoint>().ToList();
             part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
         }
 
-    }
-
-    private void Update()
-    {
         if (!isPlaced && snapType == SnapType.Surface)
         {
             isTouchingGround = OverlapCheck.TerrainCheck(gameObject);
         }
     }
 
-    private void OnEnable()
-    {
-        BuilderManager.onPartChanged += SwitchSnapPoints;
-        BuilderManager.onPartDestroyed += OnPartDestroyed;
-    }
 
-    private void OnDisable()
+    public void SetColor(Color tempColor)
     {
-        BuilderManager.onPartChanged -= SwitchSnapPoints;
-        BuilderManager.onPartDestroyed -= OnPartDestroyed;
-    }
+        var materials = part.GetComponentsInChildren<Renderer>();
 
-    public void SetColor(Material mat)
-    {
-        if (!isDestroyed)
-            part.GetComponentsInChildren<MeshRenderer>().ToList().ForEach(x => x.material = mat);
+        foreach(var material in materials)
+        {
+            if (isPlaced)
+            {
+                tempColor.a = 1f;
+             
+            }
+            else
+            {
+                tempColor.a = 0.8f;
+            }
+            material.material.color =tempColor;
+
+        }
+
     }
 
     public void SwitchSnapPoints(SnapType snap)
     {
-        if (isPlaced)
             snapPointsList.ForEach(s => s.GetComponent<Collider>().enabled = s.snapType == snap);
     }
 
@@ -79,15 +72,13 @@ public class BuildingPart : MonoBehaviour
     {
         isPlaced = true;
         part.transform.GetComponentsInChildren<Collider>().All(x => x.enabled = true);
-
         if (isPlaced)
         {
-            SetColor(defaultMaterial);
             SwitchSnapPoints(snap);
-
+            SetColor(Color.white);
             if (parentNode != null)
             {
-                gameObject.transform.parent = parentNode.transform;
+                transform.parent = parentNode.transform;
                 parentNode.GetComponent<Collider>().enabled = false;
 
             }
@@ -112,17 +103,15 @@ public class BuildingPart : MonoBehaviour
                 foreach (var snap in snaps)
                 {
                     //Consider to change overlap size if parts will brake unneccessary (better to increase)
-                    Collider[] colliders = Physics.OverlapSphere(snap.transform.position, 0.5f);
+                    Collider[] colliders = Physics.OverlapBox(snap.transform.position, Vector3.one, Quaternion.identity);
 
                     foreach (Collider collider in colliders)
                     {
-                        if (collider.CompareTag("snapPoint") && collider.gameObject != snap.gameObject
-                            && collider.gameObject != parentNode
-                            && !collider.transform.IsChildOf(parentNode.transform.parent))
+                        if (collider.CompareTag("snapPoint")
+                            && collider.gameObject != parentNode)
                         {
                             child.transform.SetParent(collider.transform);
                             child.parentNode = collider.gameObject;
-                            break;
 
                         }
                     }
@@ -133,7 +122,7 @@ public class BuildingPart : MonoBehaviour
 
         snapPointsList.ForEach(x =>
         {
-            if(x.transform.childCount > 0)
+            if (x.transform.childCount > 0)
             {
                 var childParts = x.GetComponentsInChildren<BuildingPart>();
                 childParts.ToList().ForEach(c => c.PerformDestroy());
@@ -148,19 +137,18 @@ public class BuildingPart : MonoBehaviour
     {
         if (!isDestroyed)
         {
-            snapPointsList.ForEach(x => x.GetComponent<Collider>().enabled = false);
             transform.SetParent(null);
             Transform[] children = part.GetComponentsInChildren<Transform>();
+
             foreach (Transform c in children)
             {
                 c.gameObject.AddComponent<Rigidbody>();
-                c.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 2f, ForceMode.Impulse);
+                c.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 3f, ForceMode.Impulse);
                 c.parent = null;
 
                 Destroy(c.gameObject, 3f);
             }
             Destroy(gameObject, 3f);
-
 
         }
 
@@ -192,6 +180,20 @@ public class BuildingPart : MonoBehaviour
         if (isDestroyed && parentNode != null)
             parentNode.GetComponent<Collider>().enabled = true;
 
+    }
+
+
+    private void OnEnable()
+    {
+
+        BuilderManager.onPartChanged += SwitchSnapPoints;
+        BuilderManager.onPartDestroyed += OnPartDestroyed;
+    }
+
+    private void OnDisable()
+    {
+        BuilderManager.onPartChanged -= SwitchSnapPoints;
+        BuilderManager.onPartDestroyed -= OnPartDestroyed;
     }
 
 

@@ -30,7 +30,6 @@ public static class TransformManipulator
         if (buildingPart.snapType == snapPoint.snapType)
         {
             buildingPart.transform.position = snapPoint.transform.position;
-
             buildingPart.part.transform.localPosition = snapPoint.targetChildOffset;
             buildingPart.snapPoints.transform.localPosition = snapPoint.targetChildOffset;
 
@@ -40,18 +39,9 @@ public static class TransformManipulator
 
     public static void FlipPart(GameObject part)
     {
-        var flipType = part.GetComponent<BuildingPart>().flipType;
+        var originalScale = part.transform.localScale;
 
-        switch (flipType)
-        {
-            case FlipType.zAxis:
-                part.transform.localScale = new Vector3(1, 1, part.transform.localScale.z * -1);
-                break;
-            case FlipType.xAxis:
-                part.transform.localScale = new Vector3(part.transform.localScale.x * -1,1 , 1);
-                Debug.Log("x type");
-                break;
-        }
+        part.transform.localScale = new Vector3(1, 1, -originalScale.z);
 
     }
 
