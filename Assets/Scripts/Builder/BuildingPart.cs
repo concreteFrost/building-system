@@ -26,12 +26,17 @@ public class BuildingPart : MonoBehaviour
 
     public PhysicMaterial buildingMaterial;
 
+    private void Start()
+    {
+        snapPointsList = snapPoints.GetComponentsInChildren<SnapPoint>().ToList();
+    }
     private void Update()
     {
 
         if (snapPoints != null && !isPlaced)
         {
-            snapPointsList = snapPoints.GetComponentsInChildren<SnapPoint>().ToList();
+            
+            snapPointsList.ForEach(x=>x.DeactivateSnapPoints());
             part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
         }
 
@@ -46,18 +51,17 @@ public class BuildingPart : MonoBehaviour
     {
         var materials = part.GetComponentsInChildren<Renderer>();
 
-        foreach(var material in materials)
+        foreach (var material in materials)
         {
             if (isPlaced)
             {
                 tempColor.a = 1f;
-             
             }
             else
             {
-                tempColor.a = 0.8f;
+                tempColor.a = 0.5f;
             }
-            material.material.color =tempColor;
+            material.material.color = tempColor;
 
         }
 
@@ -65,7 +69,11 @@ public class BuildingPart : MonoBehaviour
 
     public void SwitchSnapPoints(SnapType snap)
     {
-            snapPointsList.ForEach(s => s.GetComponent<Collider>().enabled = s.snapType == snap);
+        if (isPlaced)
+        {
+            snapPointsList.ForEach(x=>x.ActivateSnapPoints());  
+        }
+        
     }
 
     public void OnPartPlaced(SnapType snap)
@@ -79,7 +87,7 @@ public class BuildingPart : MonoBehaviour
             if (parentNode != null)
             {
                 transform.parent = parentNode.transform;
-                parentNode.GetComponent<Collider>().enabled = false;
+                parentNode.GetComponent<SnapPoint>().DeactivateSnapPoints();
 
             }
         }

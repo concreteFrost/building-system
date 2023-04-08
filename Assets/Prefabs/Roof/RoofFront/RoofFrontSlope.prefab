@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5022698849238531052}
+  - {fileID: 720094671451237130}
   - {fileID: 6723174143698146166}
   - {fileID: 6060729834289811587}
   m_Father: {fileID: 0}
@@ -48,10 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPartSO: {fileID: 11400000, guid: 6e44c3dc35befd445bd90f3e8a76f116, type: 2}
-  description: 
-  ingredients: []
+  id: 0
   snapType: 6
-  snapPoints: {fileID: 4610861135660252963}
+  snapPoints: {fileID: 8338254671702290373}
   part: {fileID: 6870198354069195321}
   parentNode: {fileID: 0}
   snapPointsList: []
@@ -61,7 +60,6 @@ MonoBehaviour:
   isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 0
-  defaultMaterials: []
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
 --- !u!1 &2846499486937568865
 GameObject:
@@ -407,98 +405,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1 &4610861135660252963
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5022698849238531052}
-  m_Layer: 0
-  m_Name: SnapPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5022698849238531052
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4610861135660252963}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8384801684540886799}
-  m_Father: {fileID: 370872769283500246}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5691048357401533529
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8618591739512756156}
-  - component: {fileID: 5656676352478964824}
-  - component: {fileID: 1972975046575887658}
-  m_Layer: 9
-  m_Name: 'RoofFrontSnapPoints '
-  m_TagString: snapPoint
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8618591739512756156
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5691048357401533529}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8384801684540886799}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5656676352478964824
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5691048357401533529}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1972975046575887658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5691048357401533529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d84637b7edebd64a91ea6d027350518, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapType: 6
-  targetChildOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &6569783161079248870
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,38 +436,6 @@ Transform:
   - {fileID: 6857459379865382259}
   m_Father: {fileID: 370872769283500246}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8609904033040265631
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8384801684540886799}
-  m_Layer: 0
-  m_Name: RoofFrontSnapPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8384801684540886799
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8609904033040265631}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8618591739512756156}
-  m_Father: {fileID: 5022698849238531052}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6023195964067133288
 PrefabInstance:
@@ -653,6 +527,10 @@ PrefabInstance:
     - target: {fileID: -1966718492749726497, guid: c550312f6dbe9b6418be672cc98d3f2b, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1822640686907038038, guid: c550312f6dbe9b6418be672cc98d3f2b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -616053325313264128, guid: c550312f6dbe9b6418be672cc98d3f2b, type: 3}
       propertyPath: m_Layer
@@ -758,4 +636,71 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c550312f6dbe9b6418be672cc98d3f2b, type: 3}
   m_PrefabInstance: {fileID: 6023195964067133288}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6906912100308112445
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 370872769283500246}
+    m_Modifications:
+    - target: {fileID: 3201260573420960760, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_Name
+      value: RoofFrontSlopeSnap
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+--- !u!4 &720094671451237130 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6207101288085651255, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+  m_PrefabInstance: {fileID: 6906912100308112445}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8338254671702290373 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3201260573420960760, guid: 671c0e8e0b819f14f9785c8353cc19ec, type: 3}
+  m_PrefabInstance: {fileID: 6906912100308112445}
   m_PrefabAsset: {fileID: 0}

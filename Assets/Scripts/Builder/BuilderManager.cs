@@ -6,18 +6,16 @@ using System.Collections.Generic;
 
 public class BuilderManager : MonoBehaviour
 {
+    private BuilderStore store;
     public BuilderManagerUI builderManagerUI;
-    BuilderStore store;
-    public GameObject partsParent;
-    public List<GameObject> buildingParts = new List<GameObject>();
+
+    private List<GameObject> buildingParts = new List<GameObject>();
+    public GameObject partsParent; 
     public GameObject currentPart;
 
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction onPartDestroyed;
     public static UnityAction<SnapType> onPartPlaced;
-
-    public Color canBuildColor;
-    public Color cantBuildColor;
 
     public float zOffset = 5f;
     public float angle = 0f;
@@ -27,6 +25,8 @@ public class BuilderManager : MonoBehaviour
     public bool inBuildingMode = true;
     public bool isPartChosen = false;
 
+    public Color canBuildColor;
+    public Color cantBuildColor;
 
 
     private void Awake()
@@ -38,6 +38,7 @@ public class BuilderManager : MonoBehaviour
             buildingParts.Add(part);
             part.transform.SetParent(partsParent.transform);
             });
+
         buildingParts.ForEach(x => x.SetActive(false));
     }
 
@@ -100,10 +101,8 @@ public class BuilderManager : MonoBehaviour
                 }
             }
         }
-
-      
+ 
     }
-
 
     private void PlacePrefab(BuildingPart buildingPart)
     {
@@ -140,13 +139,12 @@ public class BuilderManager : MonoBehaviour
             if (!hit.transform.CompareTag("snapPoint"))
             {
                 TransformManipulator.ResetPosition(buildingPart);
-
             }
             if (hit.transform.CompareTag("snapPoint"))
             {
                 SnapPoint snapPoint = hit.transform.GetComponent<SnapPoint>();
                 TransformManipulator.SnapToSnapPoint(buildingPart, snapPoint);
-
+                
                 if (!buildingPart.isTouchingGround)
                     buildingPart.parentNode = hit.transform.gameObject;
             }
@@ -159,6 +157,7 @@ public class BuilderManager : MonoBehaviour
         }
 
     }
+
     public void GetActivePrefab(int id)
     {
         angle = 0;
