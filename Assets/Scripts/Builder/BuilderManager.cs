@@ -141,16 +141,16 @@ public class BuilderManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && canBuild)
             {
                 GameObject go = Instantiate(buildingPart.gameObject, buildingPart.transform.position,buildingPart.transform.rotation);
-                
+                go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
                 TransformManipulator.ResetPosition(buildingPart);
 
                 if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
                 {
                     hit.transform.GetComponent<SnapPoint>().AddChildPart(go);
-                    //hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
+                   
                 }
                
-                go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
+       
 
             }
            

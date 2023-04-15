@@ -24,15 +24,12 @@ public class SnapPoint : MonoBehaviour
     public GameObject childPart;
     public GameObject neighbourSnap;
 
-
-
     private void Awake()
     {
         _collider = GetComponent<SphereCollider>();
         _renderer = GetComponent<MeshRenderer>();
 
     }
-
 
     public void ActivateSnapPoints()
     {
@@ -42,7 +39,6 @@ public class SnapPoint : MonoBehaviour
 
     public void DeactivateSnapPoints()
     {
-
         _collider.enabled = false;
         _renderer.enabled = false;
     }
