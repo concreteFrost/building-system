@@ -36,10 +36,9 @@ public class BuilderManagerUI : MonoBehaviour
         });
     }
 
-    public void GetBuildingModeState(bool inBuildingMode)
+    public void SetBuildingModeState(bool inBuildingMode)
     {
-        canvas.SetActive(inBuildingMode);
-            
+        canvas.SetActive(inBuildingMode);      
     }
 
 

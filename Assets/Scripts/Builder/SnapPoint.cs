@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public enum SnapType
 {
@@ -20,24 +21,53 @@ public class SnapPoint : MonoBehaviour
     public Vector3 targetChildOffset;
     SphereCollider _collider;
     MeshRenderer _renderer;
+    public GameObject childPart;
+    public GameObject neighbourSnap;
 
-    private void Start()
+
+
+    private void Awake()
     {
         _collider = GetComponent<SphereCollider>();
         _renderer = GetComponent<MeshRenderer>();
+
     }
 
 
     public void ActivateSnapPoints()
     {
         _collider.enabled = true;
-        _renderer.enabled = true;  
+        _renderer.enabled = true;
     }
 
     public void DeactivateSnapPoints()
     {
-        _renderer.enabled = false;
+
         _collider.enabled = false;
+        _renderer.enabled = false;
+    }
+    public void AddChildPart(GameObject child)
+    {
+        child.transform.SetParent(transform);
+        childPart = child;
+    }
+    private void OnEnable()
+    {
+        BuilderManager.onBuildingModeExit += DeactivateSnapPoints;
+    }
+
+    private void OnDisable()
+    {
+        BuilderManager.onBuildingModeExit -= DeactivateSnapPoints;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("snapPoint"))
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            Debug.Log("collides");
+        }
     }
 
 }

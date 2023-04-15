@@ -10,105 +10,91 @@ public class BuilderManager : MonoBehaviour
     public BuilderManagerUI builderManagerUI;
 
     private List<GameObject> buildingParts = new List<GameObject>();
-    public GameObject partsParent; 
+    public GameObject partsParent;
     public GameObject currentPart;
 
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction onPartDestroyed;
     public static UnityAction<SnapType> onPartPlaced;
+    public static UnityAction onBuildingModeExit;
 
     public float zOffset = 5f;
     public float angle = 0f;
     private float rayDistance = 10f;
 
     public bool canBuild = false;
-    public bool inBuildingMode = true;
+
+    public bool isBuildingMenuIsOpen = false;
     public bool isPartChosen = false;
 
     public Color canBuildColor;
     public Color cantBuildColor;
 
-
     private void Awake()
     {
-       
-        store =  GetComponent<BuilderStore>();
-        store.parts.ForEach(x => {
+        builderManagerUI.SetBuildingModeState(isBuildingMenuIsOpen);
+        store = GetComponent<BuilderStore>();
+        store.parts.ForEach(x =>
+        {
             GameObject part = Instantiate(x);
             buildingParts.Add(part);
             part.transform.SetParent(partsParent.transform);
-            });
+        });
 
         buildingParts.ForEach(x => x.SetActive(false));
+
     }
+
 
     private void Update()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            inBuildingMode = !inBuildingMode;
             isPartChosen = false;
-          
+            isBuildingMenuIsOpen = !isBuildingMenuIsOpen;
+            builderManagerUI.SetBuildingModeState(isBuildingMenuIsOpen);
+
+            if (isBuildingMenuIsOpen && onBuildingModeExit!=null)
+            {
+                onBuildingModeExit.Invoke();
+            }
         }
 
-        if (!inBuildingMode)
+
+
+        if (isBuildingMenuIsOpen)
         {
             buildingParts.ForEach(x => x.SetActive(false));
-            builderManagerUI.GetBuildingModeState(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            return;
-        }
-
-        if (inBuildingMode)
-        {
-            Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
 
-            if (!isPartChosen)
+        }
+
+        if (isPartChosen)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+
+            currentPart.GetComponent<BuildingPart>().SetColor(canBuild ? canBuildColor : cantBuildColor);
+            currentPart.transform.localRotation *= TransformManipulator.RotatePart(angle);
+            currentPart.transform.position = TransformManipulator.CameraCenter(zOffset);
+
+            BuildingPart buildingPart = currentPart.GetComponent<BuildingPart>();
+            SnapToSurface(buildingPart);
+
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                builderManagerUI.GetBuildingModeState(true);
+                TransformManipulator.FlipPart(currentPart);
             }
 
-            if (isPartChosen)
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                builderManagerUI.GetBuildingModeState(false);
-            }
-           
-            if (currentPart != null)
-            {
-                currentPart.GetComponent<BuildingPart>().SetColor(canBuild ? canBuildColor : cantBuildColor);
-                currentPart.transform.localRotation *= TransformManipulator.RotatePart(angle);
-                currentPart.transform.position = TransformManipulator.CameraCenter(zOffset);
-
-                BuildingPart buildingPart = currentPart.GetComponent<BuildingPart>();
-                SnapToSurface(buildingPart);
-
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    TransformManipulator.FlipPart(currentPart);
-                }
-
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    RemovePrefab();
-                }
-
-                if (Input.GetMouseButtonDown(0) && canBuild)
-                {
-                    PlacePrefab(buildingPart);
-                }
+                RemovePrefab();
             }
         }
- 
-    }
 
-    private void PlacePrefab(BuildingPart buildingPart)
-    {
-        GameObject go = Instantiate(currentPart, currentPart.transform.position, currentPart.transform.rotation);
-        go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
-        TransformManipulator.ResetPosition(buildingPart);
     }
 
     void RemovePrefab()
@@ -121,11 +107,10 @@ public class BuilderManager : MonoBehaviour
         {
             if (hit.transform.GetComponentInParent<BuildingPart>() != null)
             {
-                onPartDestroyed.Invoke();
+                
                 hit.transform.GetComponentInParent<BuildingPart>().DestroyPrefab();
 
             }
-            
         }
     }
 
@@ -133,7 +118,7 @@ public class BuilderManager : MonoBehaviour
     {
         RaycastHit hit;
         canBuild = false;
-        buildingPart.parentNode = null;
+        
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance))
         {
             if (!hit.transform.CompareTag("snapPoint"))
@@ -144,15 +129,31 @@ public class BuilderManager : MonoBehaviour
             {
                 SnapPoint snapPoint = hit.transform.GetComponent<SnapPoint>();
                 TransformManipulator.SnapToSnapPoint(buildingPart, snapPoint);
-                
-                if (!buildingPart.isTouchingGround)
-                    buildingPart.parentNode = hit.transform.gameObject;
+
             }
             if (hit.transform.CompareTag("Terrain"))
             {
                 currentPart.transform.position = new Vector3(currentPart.transform.position.x, hit.point.y, currentPart.transform.position.z);
             }
+
             canBuild = OverlapCheck.CanBuild(buildingPart, hit);
+
+            if (Input.GetMouseButtonDown(0) && canBuild)
+            {
+                GameObject go = Instantiate(buildingPart.gameObject, buildingPart.transform.position,buildingPart.transform.rotation);
+                
+                TransformManipulator.ResetPosition(buildingPart);
+
+                if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
+                {
+                    hit.transform.GetComponent<SnapPoint>().AddChildPart(go);
+                    //hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
+                }
+               
+                go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
+
+            }
+           
 
         }
 
@@ -163,7 +164,7 @@ public class BuilderManager : MonoBehaviour
         angle = 0;
         buildingParts.ForEach(x =>
         {
-            if(x.GetComponent<BuildingPart>().buildingPartSO.id == id)
+            if (x.GetComponent<BuildingPart>().buildingPartSO.id == id)
             {
                 x.SetActive(true);
                 currentPart = x;
@@ -172,11 +173,12 @@ public class BuilderManager : MonoBehaviour
             {
                 x.SetActive(false);
             }
-               
+
         });
         isPartChosen = true;
+        isBuildingMenuIsOpen = false;
         onPartChanged(currentPart.GetComponent<BuildingPart>().snapType);
-       
+
     }
 
 
