@@ -47,9 +47,11 @@ public class SnapPoint : MonoBehaviour
         child.transform.SetParent(transform);
         childPart = child;
     }
+ 
     private void OnEnable()
     {
         BuilderManager.onBuildingModeExit += DeactivateSnapPoints;
+
     }
 
     private void OnDisable()

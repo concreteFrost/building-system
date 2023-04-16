@@ -14,7 +14,6 @@ public class BuilderManager : MonoBehaviour
     public GameObject currentPart;
 
     public static UnityAction<SnapType> onPartChanged;
-    public static UnityAction onPartDestroyed;
     public static UnityAction<SnapType> onPartPlaced;
     public static UnityAction onBuildingModeExit;
 
@@ -142,19 +141,16 @@ public class BuilderManager : MonoBehaviour
             {
                 GameObject go = Instantiate(buildingPart.gameObject, buildingPart.transform.position,buildingPart.transform.rotation);
                 go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
+                
                 TransformManipulator.ResetPosition(buildingPart);
 
                 if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
                 {
                     hit.transform.GetComponent<SnapPoint>().AddChildPart(go);
-                   
-                }
-               
-       
-
+                    hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
+                    go.GetComponent<BuildingPart>().parentNode = hit.transform.gameObject;
+                }      
             }
-           
-
         }
 
     }

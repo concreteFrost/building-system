@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5424802529423931476}
   - component: {fileID: 3106346858408875137}
+  - component: {fileID: -2865951795854462287}
   m_Layer: 0
   m_Name: Wall Full
   m_TagString: Untagged
@@ -60,8 +61,19 @@ MonoBehaviour:
   isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 1
-  defaultMaterials: []
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
+--- !u!114 &-2865951795854462287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82115829846107673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edea973d43d1bf41baf6d1afb380649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1027591949162054434
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,9 +788,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -7165936111365977371, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
+      propertyPath: m_TagString
+      value: building
+      objectReference: {fileID: 0}
     - target: {fileID: -5784052206429432340, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -5784052206429432340, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
+      propertyPath: m_TagString
+      value: building
       objectReference: {fileID: 0}
     - target: {fileID: -4275648267230207694, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
       propertyPath: m_Layer
@@ -844,6 +864,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5513790032402970107, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
+      propertyPath: m_TagString
+      value: building
+      objectReference: {fileID: 0}
     - target: {fileID: 6114580578315887925, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -868,6 +892,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8521018316953702351, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
+      propertyPath: m_TagString
+      value: building
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
 --- !u!1 &129360526582126225 stripped
@@ -875,7 +903,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -5784052206429432340, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
   m_PrefabInstance: {fileID: 3346596320928793469}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &8836340549113371105
+--- !u!64 &7158179411312812765
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -904,7 +932,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -7165936111365977371, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
   m_PrefabInstance: {fileID: 3346596320928793469}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &6656576192932299004
+--- !u!64 &9094115158107386908
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -923,7 +951,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8521018316953702351, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
   m_PrefabInstance: {fileID: 3346596320928793469}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &6330755812414839750
+--- !u!64 &4039939081620114719
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -942,7 +970,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5513790032402970107, guid: a205e8f173e1add47b4287bfd39eb9dc, type: 3}
   m_PrefabInstance: {fileID: 3346596320928793469}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &3607289276667858629
+--- !u!64 &7790571617930061933
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

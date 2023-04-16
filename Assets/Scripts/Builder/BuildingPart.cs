@@ -5,9 +5,10 @@ using UnityEngine;
 public class BuildingPart : MonoBehaviour
 {
     public BuildingPartSO buildingPartSO;
-    public int id;
+    DestroyBuildingPart destroyBuilding;
 
     public SnapType snapType;
+
     public GameObject snapPoints;
     public GameObject part;
     public GameObject parentNode;
@@ -18,11 +19,16 @@ public class BuildingPart : MonoBehaviour
     public Vector3 overlapPosition;
 
     public bool isPlaced = false;
-    public bool isDestroyed = false;
     public bool isTouchingGround;
     public bool isRequeriedOverlap;
 
     public PhysicMaterial buildingMaterial;
+
+    private void Awake()
+    {
+        destroyBuilding = GetComponent<DestroyBuildingPart>();
+        part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
+    }
 
     private void Start()
     {
@@ -31,7 +37,7 @@ public class BuildingPart : MonoBehaviour
         if (snapPoints != null && !isPlaced)
         {
             snapPointsList.ForEach(x => x.DeactivateSnapPoints());
-            part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
+            
         }
     }
     private void Update()
@@ -46,7 +52,7 @@ public class BuildingPart : MonoBehaviour
 
     public void SetColor(Color tempColor)
     {
-        var materials = part.GetComponentsInChildren<Renderer>();
+        Renderer[] materials = part.GetComponentsInChildren<Renderer>();
 
         foreach (var material in materials)
         {
@@ -63,129 +69,74 @@ public class BuildingPart : MonoBehaviour
 
     }
 
-    public void SwitchSnapPoints(SnapType snap)
+    private void SwitchSnapPoints(SnapType snap)
     {
         if (isPlaced)
         {
-            snapPointsList.ForEach(x =>
+            foreach (var s in snapPointsList)
             {
-                if(x.snapType == snap)
+                if (s.snapType == snap)
                 {
-                    x.ActivateSnapPoints();
+                    s.ActivateSnapPoints();
                 }
                 else
                 {
-                    x.DeactivateSnapPoints();
+                    s.DeactivateSnapPoints();
                 }
-            });
+            }
         }
-
+      
     }
 
     public void OnPartPlaced(SnapType snap)
     {
         isPlaced = true;
-        part.transform.GetComponentsInChildren<Collider>().All(x => x.enabled = true);
+        
         if (isPlaced)
         {
             SwitchSnapPoints(snap);
             SetColor(Color.white);
-            if (parentNode != null)
-            {
-                transform.parent = parentNode.transform;
-                parentNode.GetComponent<SnapPoint>().DeactivateSnapPoints();
+            part.transform.GetComponentsInChildren<Collider>().All(x => x.enabled = true);
 
-            }
+        }
+        if (parentNode != null)
+        {
+            transform.parent = parentNode.transform;
+            parentNode.GetComponentInChildren<SnapPoint>().DeactivateSnapPoints();
         }
     }
-
-
     public void DestroyPrefab()
     {
         if (!isPlaced)
         {
             return;
         }
+ 
+        snapPointsList.ForEach(x => x.DeactivateSnapPoints());
 
-        foreach (var snapPoint in snapPointsList)
+        //checking if the child part can be passed to another object
+        destroyBuilding.CheckingGroundedNeighbours(snapPointsList);
+
+        //destroying all children that were not passed to other objects
+        destroyBuilding.DestroyChildPart(snapPointsList);
+
+        //actual prefab destroy
+        destroyBuilding.PerformDestroy(this);
+
+        if (parentNode != null)
         {
-           
+            parentNode.GetComponent<SnapPoint>().ActivateSnapPoints();
         }
-
-        snapPointsList.ForEach(x =>
-        {
-            if (x.transform.childCount > 0)
-            {
-                var childParts = x.GetComponentsInChildren<BuildingPart>();
-                childParts.ToList().ForEach(c => c.PerformDestroy());
-            }
-        });
-
-        PerformDestroy();
     }
-
-
-    void PerformDestroy()
-    {
-        if (!isDestroyed)
-        {
-            transform.SetParent(null);
-            Transform[] children = part.GetComponentsInChildren<Transform>();
-
-            foreach (Transform c in children)
-            {
-                c.gameObject.AddComponent<Rigidbody>();
-                c.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 3f, ForceMode.Impulse);
-                c.parent = null;
-
-                Destroy(c.gameObject, 3f);
-            }
-            Destroy(gameObject, 3f);
-
-        }
-
-        isDestroyed = true;
-
-    }
-
-    void OnPartDestroyed()
-    {
-        if (isPlaced)
-            StartCoroutine(TemporaryActivateAllSnaps());
-    }
-
-    IEnumerator TemporaryActivateAllSnaps()
-    {
-        List<SnapPoint> disabledSnaps = new List<SnapPoint>();
-        foreach (var s in snapPointsList)
-        {
-            if (s.GetComponent<Collider>().enabled == false)
-            {
-                disabledSnaps.Add(s);
-            }
-        }
-
-        disabledSnaps.ForEach(s => s.GetComponent<Collider>().enabled = true);
-        yield return new WaitForSeconds(0.4f);
-        disabledSnaps.ForEach(s => s.GetComponent<Collider>().enabled = false);
-
-        if (isDestroyed && parentNode != null)
-            parentNode.GetComponent<Collider>().enabled = true;
-
-    }
-
 
     private void OnEnable()
     {
-
         BuilderManager.onPartChanged += SwitchSnapPoints;
-        BuilderManager.onPartDestroyed += OnPartDestroyed;
     }
 
     private void OnDisable()
     {
         BuilderManager.onPartChanged -= SwitchSnapPoints;
-        BuilderManager.onPartDestroyed -= OnPartDestroyed;
     }
 
 

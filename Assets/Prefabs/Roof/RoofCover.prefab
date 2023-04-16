@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370872769283500246}
   - component: {fileID: 4201005237125357155}
+  - component: {fileID: 2669802518312107577}
   m_Layer: 0
   m_Name: RoofCover
   m_TagString: Untagged
@@ -59,8 +60,19 @@ MonoBehaviour:
   isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 0
-  defaultMaterials: []
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
+--- !u!114 &2669802518312107577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144093031545061501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edea973d43d1bf41baf6d1afb380649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2648437927510553750
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +162,10 @@ PrefabInstance:
     - target: {fileID: -4533413798867312393, guid: 204cb8ce60f59334ab37eed475242b3b, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4533413798867312393, guid: 204cb8ce60f59334ab37eed475242b3b, type: 3}
+      propertyPath: m_TagString
+      value: building
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 204cb8ce60f59334ab37eed475242b3b, type: 3}
       propertyPath: m_Name

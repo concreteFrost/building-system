@@ -4,11 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Building
   - Terrain
   - snapPoint
   - FloorSupport
   - Floor
+  - building
   layers:
   - Default
   - TransparentFX

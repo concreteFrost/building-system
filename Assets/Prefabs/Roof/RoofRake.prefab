@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 370872769283500246}
   - component: {fileID: 4201005237125357155}
+  - component: {fileID: -2049147025196486973}
   m_Layer: 0
   m_Name: RoofRake
-  m_TagString: Untagged
+  m_TagString: building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,8 +60,19 @@ MonoBehaviour:
   isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 0
-  defaultMaterials: []
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
+--- !u!114 &-2049147025196486973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144093031545061501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edea973d43d1bf41baf6d1afb380649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1936210475517885819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,6 +139,10 @@ PrefabInstance:
     - target: {fileID: -4971517432883173834, guid: e6a4fae909e21fc46a61f9c9b6f6b821, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4971517432883173834, guid: e6a4fae909e21fc46a61f9c9b6f6b821, type: 3}
+      propertyPath: m_TagString
+      value: building
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e6a4fae909e21fc46a61f9c9b6f6b821, type: 3}
       propertyPath: m_Name

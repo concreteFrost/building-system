@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370872769283500246}
   - component: {fileID: 4201005237125357155}
+  - component: {fileID: 7275776901392927844}
   m_Layer: 0
   m_Name: RoofFrontTriangle
   m_TagString: Untagged
@@ -79,8 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPartSO: {fileID: 11400000, guid: f25a30bae89f4c74196b53fa14cf2123, type: 2}
-  description: 
-  ingredients: []
+  id: 0
   snapType: 6
   snapPoints: {fileID: 4610861135660252963}
   part: {fileID: 3030528980015169236}
@@ -92,8 +92,19 @@ MonoBehaviour:
   isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 0
-  defaultMaterials: []
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
+--- !u!114 &7275776901392927844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144093031545061501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edea973d43d1bf41baf6d1afb380649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2846499486937568865
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +572,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -7276562787982289786, guid: b70727447e4068945acdf13405a72c1b, type: 3}
+      propertyPath: m_TagString
+      value: building
+      objectReference: {fileID: 0}
     - target: {fileID: -6255113497265411632, guid: b70727447e4068945acdf13405a72c1b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -568,6 +583,10 @@ PrefabInstance:
     - target: {fileID: -2042206833191339323, guid: b70727447e4068945acdf13405a72c1b, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2042206833191339323, guid: b70727447e4068945acdf13405a72c1b, type: 3}
+      propertyPath: m_TagString
+      value: building
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b70727447e4068945acdf13405a72c1b, type: 3}
       propertyPath: m_Name

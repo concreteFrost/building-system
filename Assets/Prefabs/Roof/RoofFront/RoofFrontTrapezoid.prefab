@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370872769283500246}
   - component: {fileID: 4201005237125357155}
+  - component: {fileID: 2262555093692312864}
   m_Layer: 0
   m_Name: RoofFrontTrapezoid
   m_TagString: Untagged
@@ -60,6 +61,18 @@ MonoBehaviour:
   isTouchingGround: 0
   isRequeriedOverlap: 0
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
+--- !u!114 &2262555093692312864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144093031545061501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edea973d43d1bf41baf6d1afb380649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2904585719715725685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,9 +148,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1395977244786161198, guid: 0e3791055aa28c54a8785e3d5aa4062d, type: 3}
+      propertyPath: m_TagString
+      value: building
+      objectReference: {fileID: 0}
     - target: {fileID: 5096674856640463250, guid: 0e3791055aa28c54a8785e3d5aa4062d, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096674856640463250, guid: 0e3791055aa28c54a8785e3d5aa4062d, type: 3}
+      propertyPath: m_TagString
+      value: building
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e3791055aa28c54a8785e3d5aa4062d, type: 3}
