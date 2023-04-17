@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingPartSO: {fileID: 11400000, guid: 1cebdfab6858ed443b7f1231eb7041b0, type: 2}
-  id: 0
   snapType: 7
   snapPoints: {fileID: 2648437927510553750}
   part: {fileID: 4789248951242494193}
@@ -57,7 +56,6 @@ MonoBehaviour:
   overlapSize: {x: 1, y: 0.2, z: 1}
   overlapPosition: {x: 0, y: 0.15, z: 0}
   isPlaced: 0
-  isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 0
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
@@ -182,8 +180,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -4533413798867312393, guid: 204cb8ce60f59334ab37eed475242b3b, type: 3}
   m_PrefabInstance: {fileID: 5672210450137591200}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &589722131039066287
-BoxCollider:
+--- !u!64 &155743980703902593
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -192,9 +190,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 0.02315115, z: 2.1368802}
-  m_Center: {x: 0, y: 0, z: 0.00007259846}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5671574511684265612, guid: 204cb8ce60f59334ab37eed475242b3b, type: 3}
 --- !u!1 &4789248951242494193 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 204cb8ce60f59334ab37eed475242b3b, type: 3}

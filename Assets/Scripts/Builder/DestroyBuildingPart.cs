@@ -14,8 +14,12 @@ public class DestroyBuildingPart : MonoBehaviour
 
         foreach (Transform c in children)
         {
-            c.gameObject.AddComponent<Rigidbody>();
-            c.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 3f, ForceMode.Impulse);
+            if(c.gameObject.GetComponent<Rigidbody>() == null)
+            {
+                c.gameObject.AddComponent<Rigidbody>();
+                c.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 3f, ForceMode.Impulse);
+            }
+           
             c.parent = null;
 
             Destroy(c.gameObject, 3f);
@@ -43,6 +47,7 @@ public class DestroyBuildingPart : MonoBehaviour
 
     public void CheckingGroundedNeighbours(List<SnapPoint> snapPointsList)
     {
+        
         foreach (var snapPoint in snapPointsList)
         {
             var childParts = snapPoint.GetComponentsInChildren<BuildingPart>();
@@ -54,14 +59,16 @@ public class DestroyBuildingPart : MonoBehaviour
                 foreach (var childSnap in childSnaps)
                 {
                     var mask = 1 << LayerMask.NameToLayer("Building");
-                    Collider[] cols = Physics.OverlapBox(childSnap.transform.position, Vector3.one * .3f, Quaternion.identity, mask);
+                    Collider[] cols = Physics.OverlapBox(childSnap.transform.position, Vector3.one * .2f, Quaternion.identity, mask);
 
                     if (cols.Length > 0)
                     {
+                       
                         foreach (var col in cols)
                         {
                             if (!col.transform.IsChildOf(transform))
                             {
+                                               
                                 if (col.GetComponentInParent<BuildingPart>() != null)
                                 {
                                     childPart.transform.SetParent(ReasignedParentNode(col.GetComponentInParent<BuildingPart>(), childSnap, childParts));
@@ -77,6 +84,7 @@ public class DestroyBuildingPart : MonoBehaviour
 
     private Transform ReasignedParentNode(BuildingPart col, SnapPoint childSnap, BuildingPart[] childParts)
     {
+       
         var colSnaps = col.GetComponentInParent<BuildingPart>().snapPointsList;
 
         foreach (var colSnap in colSnaps)

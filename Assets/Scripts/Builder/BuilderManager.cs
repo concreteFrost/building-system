@@ -8,14 +8,14 @@ public class BuilderManager : MonoBehaviour
 {
     private BuilderStore store;
     public BuilderManagerUI builderManagerUI;
-
-    private List<GameObject> buildingParts = new List<GameObject>();
+    FirstPersonController firstPersonController;
+    public  List<GameObject> buildingParts = new List<GameObject>();
     public GameObject partsParent;
     public GameObject currentPart;
 
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction<SnapType> onPartPlaced;
-    public static UnityAction onBuildingModeExit;
+    
 
     public float zOffset = 5f;
     public float angle = 0f;
@@ -23,15 +23,12 @@ public class BuilderManager : MonoBehaviour
 
     public bool canBuild = false;
 
-    public bool isBuildingMenuIsOpen = false;
-    public bool isPartChosen = false;
-
     public Color canBuildColor;
     public Color cantBuildColor;
 
     private void Awake()
     {
-        builderManagerUI.SetBuildingModeState(isBuildingMenuIsOpen);
+        firstPersonController = FindObjectOfType<FirstPersonController>();
         store = GetComponent<BuilderStore>();
         store.parts.ForEach(x =>
         {
@@ -47,35 +44,11 @@ public class BuilderManager : MonoBehaviour
 
     private void Update()
     {
+        
+        //firstPersonController.enabled = !isBuildingMenuIsOpen || inDestructionMode || isPartChosen;
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (currentPart !=null)
         {
-            isPartChosen = false;
-            isBuildingMenuIsOpen = !isBuildingMenuIsOpen;
-            builderManagerUI.SetBuildingModeState(isBuildingMenuIsOpen);
-
-            if (isBuildingMenuIsOpen && onBuildingModeExit!=null)
-            {
-                onBuildingModeExit.Invoke();
-            }
-        }
-
-
-
-        if (isBuildingMenuIsOpen)
-        {
-            buildingParts.ForEach(x => x.SetActive(false));
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            
-
-        }
-
-        if (isPartChosen)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
-
             currentPart.GetComponent<BuildingPart>().SetColor(canBuild ? canBuildColor : cantBuildColor);
             currentPart.transform.localRotation *= TransformManipulator.RotatePart(angle);
             currentPart.transform.position = TransformManipulator.CameraCenter(zOffset);
@@ -88,13 +61,21 @@ public class BuilderManager : MonoBehaviour
                 TransformManipulator.FlipPart(currentPart);
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
+        }
+
+
+        if (builderManagerUI.isDestructionModeActive)
+        {
+            currentPart = null;
+            if (Input.GetMouseButtonDown(0))
             {
                 RemovePrefab();
             }
         }
 
+
     }
+
 
     void RemovePrefab()
     {
@@ -146,9 +127,10 @@ public class BuilderManager : MonoBehaviour
 
                 if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
                 {
-                    hit.transform.GetComponent<SnapPoint>().AddChildPart(go);
+                    
                     hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
                     go.GetComponent<BuildingPart>().parentNode = hit.transform.gameObject;
+                    go.transform.SetParent(hit.transform);
                 }      
             }
         }
@@ -157,6 +139,7 @@ public class BuilderManager : MonoBehaviour
 
     public void GetActivePrefab(int id)
     {
+
         angle = 0;
         buildingParts.ForEach(x =>
         {
@@ -171,10 +154,8 @@ public class BuilderManager : MonoBehaviour
             }
 
         });
-        isPartChosen = true;
-        isBuildingMenuIsOpen = false;
-        onPartChanged(currentPart.GetComponent<BuildingPart>().snapType);
 
+        onPartChanged(currentPart.GetComponent<BuildingPart>().snapType);
     }
 
 

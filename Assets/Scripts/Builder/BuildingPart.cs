@@ -102,7 +102,7 @@ public class BuildingPart : MonoBehaviour
         if (parentNode != null)
         {
             transform.parent = parentNode.transform;
-            parentNode.GetComponentInChildren<SnapPoint>().DeactivateSnapPoints();
+            parentNode.GetComponent<SnapPoint>().DeactivateSnapPoints();
         }
     }
     public void DestroyPrefab()
@@ -123,10 +123,6 @@ public class BuildingPart : MonoBehaviour
         //actual prefab destroy
         destroyBuilding.PerformDestroy(this);
 
-        if (parentNode != null)
-        {
-            parentNode.GetComponent<SnapPoint>().ActivateSnapPoints();
-        }
     }
 
     private void OnEnable()
