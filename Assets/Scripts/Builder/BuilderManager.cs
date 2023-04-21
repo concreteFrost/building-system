@@ -8,14 +8,14 @@ public class BuilderManager : MonoBehaviour
 {
     private BuilderStore store;
     public BuilderManagerUI builderManagerUI;
-    FirstPersonController firstPersonController;
-    public  List<GameObject> buildingParts = new List<GameObject>();
+    private BuildingPart objectToDestroy;
+    public List<GameObject> buildingParts = new List<GameObject>();
     public GameObject partsParent;
     public GameObject currentPart;
 
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction<SnapType> onPartPlaced;
-    
+    public static UnityAction onBuildingModeExit;
 
     public float zOffset = 5f;
     public float angle = 0f;
@@ -23,12 +23,16 @@ public class BuilderManager : MonoBehaviour
 
     public bool canBuild = false;
 
+    //building state booleans
+    public bool isDestructionModeActive;
+    public bool isMenuOpen;
+
     public Color canBuildColor;
     public Color cantBuildColor;
 
     private void Awake()
     {
-        firstPersonController = FindObjectOfType<FirstPersonController>();
+        
         store = GetComponent<BuilderStore>();
         store.parts.ForEach(x =>
         {
@@ -37,16 +41,19 @@ public class BuilderManager : MonoBehaviour
             part.transform.SetParent(partsParent.transform);
         });
 
-        buildingParts.ForEach(x => x.SetActive(false));
-
+        ToggleMainCanvas(false);
     }
 
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            isMenuOpen = !isMenuOpen;
+            ToggleMainCanvas(isMenuOpen);
+        }
+      
         
-        //firstPersonController.enabled = !isBuildingMenuIsOpen || inDestructionMode || isPartChosen;
-
         if (currentPart !=null)
         {
             currentPart.GetComponent<BuildingPart>().SetColor(canBuild ? canBuildColor : cantBuildColor);
@@ -63,16 +70,11 @@ public class BuilderManager : MonoBehaviour
 
         }
 
-
-        if (builderManagerUI.isDestructionModeActive)
+        if (isDestructionModeActive)
         {
             currentPart = null;
-            if (Input.GetMouseButtonDown(0))
-            {
-                RemovePrefab();
-            }
+            RemovePrefab();
         }
-
 
     }
 
@@ -83,15 +85,31 @@ public class BuilderManager : MonoBehaviour
         int buildingLayer = LayerMask.NameToLayer("Building");
         int mask = (1 << buildingLayer);
 
+        ResetObjectToDestroy();
+
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance, mask))
         {
-            if (hit.transform.GetComponentInParent<BuildingPart>() != null)
+            if(hit.transform.GetComponentInParent<BuildingPart>() != null)
             {
+  
+                objectToDestroy = hit.transform.GetComponentInParent<BuildingPart>();  
                 
-                hit.transform.GetComponentInParent<BuildingPart>().DestroyPrefab();
+                if (!objectToDestroy.isOutlined)
+                {
+                    objectToDestroy.AddOutline();
+                    objectToDestroy.isOutlined = true;
 
-            }
+                }
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    objectToDestroy.RemoveOutline();
+                    objectToDestroy.isOutlined = false;
+                    objectToDestroy.DestroyPrefab();
+                }
+            }      
         }
+       
     }
 
     private void SnapToSurface(BuildingPart buildingPart)
@@ -137,6 +155,53 @@ public class BuilderManager : MonoBehaviour
 
     }
 
+    public void EnterDestructionMode()
+    {
+        isDestructionModeActive = true;
+        isMenuOpen = false;
+        ToggleMainCanvas(false);
+    }
+
+    public void ToggleMainCanvas(bool _isMenuOpen)
+    {
+        isMenuOpen = _isMenuOpen;
+        builderManagerUI.ShowMainCanvas(isMenuOpen);
+        onBuildingModeExit?.Invoke();
+       
+        ResetObjectToDestroy();
+        
+        Cursor.visible = isMenuOpen;
+        Cursor.lockState = _isMenuOpen ? CursorLockMode.Confined : CursorLockMode.Locked;
+
+        if (isMenuOpen)
+        {
+            
+            isDestructionModeActive=false;
+            currentPart = null;       
+        }
+
+
+        if (currentPart == null)
+        {
+            buildingParts.ForEach(x => x.SetActive(false));
+            builderManagerUI.ShowBuildingModeCanvas(false);
+        }
+        
+    }
+
+    private void ResetObjectToDestroy()
+    {
+        if (objectToDestroy != null)
+        {
+            if (objectToDestroy.isOutlined)
+            {
+                objectToDestroy.RemoveOutline();
+                objectToDestroy.isOutlined = false;
+                objectToDestroy = null;
+            }
+        }
+    }
+
     public void GetActivePrefab(int id)
     {
 
@@ -147,6 +212,7 @@ public class BuilderManager : MonoBehaviour
             {
                 x.SetActive(true);
                 currentPart = x;
+                Debug.Log(currentPart.name);
             }
             else
             {
@@ -154,8 +220,10 @@ public class BuilderManager : MonoBehaviour
             }
 
         });
+        ToggleMainCanvas(false);
+        builderManagerUI.ShowBuildingModeCanvas(true);
+        onPartChanged?.Invoke(currentPart.GetComponent<BuildingPart>().snapType);
 
-        onPartChanged(currentPart.GetComponent<BuildingPart>().snapType);
     }
 
 

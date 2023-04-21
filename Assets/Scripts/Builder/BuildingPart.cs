@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-public class BuildingPart : MonoBehaviour
+public class BuildingPart : OutlineObject
 {
     public BuildingPartSO buildingPartSO;
     DestroyBuildingPart destroyBuilding;
@@ -22,12 +22,19 @@ public class BuildingPart : MonoBehaviour
     public bool isTouchingGround;
     public bool isRequeriedOverlap;
 
+
     public PhysicMaterial buildingMaterial;
 
     private void Awake()
     {
+        objectRenderer = part.GetComponentsInChildren<MeshRenderer>();
+
         destroyBuilding = GetComponent<DestroyBuildingPart>();
-        part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
+        if (!isPlaced)
+        {
+            part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
+        }
+        
     }
 
     private void Start()

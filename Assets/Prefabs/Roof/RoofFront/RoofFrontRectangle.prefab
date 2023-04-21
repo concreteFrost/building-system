@@ -47,6 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b984d09a65532d846aa06cdd66658f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlineMaterial: {fileID: 2100000, guid: 39bd082d39a282b4db0de5357b4e80f9, type: 2}
+  raycastDistance: 10
+  materialStack: []
+  objectRenderer: []
+  isOutlined: 0
   buildingPartSO: {fileID: 11400000, guid: de876e26cf63b1e4f8e7d151e6ef320f, type: 2}
   snapType: 6
   snapPoints: {fileID: 3278305788406582831}

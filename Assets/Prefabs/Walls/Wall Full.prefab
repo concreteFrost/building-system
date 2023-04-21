@@ -48,8 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b984d09a65532d846aa06cdd66658f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlineMaterial: {fileID: 2100000, guid: 39bd082d39a282b4db0de5357b4e80f9, type: 2}
+  raycastDistance: 10
+  materialStack: []
+  objectRenderer: []
+  isOutlined: 0
   buildingPartSO: {fileID: 11400000, guid: bd379e1c72368734e85afd7cfa819a0b, type: 2}
-  id: 0
   snapType: 1
   snapPoints: {fileID: 2716427182047069968}
   part: {fileID: 2499522319997353516}
@@ -58,7 +62,6 @@ MonoBehaviour:
   overlapSize: {x: 0, y: 0.2, z: 0}
   overlapPosition: {x: 0, y: 1, z: 0}
   isPlaced: 0
-  isDestroyed: 0
   isTouchingGround: 0
   isRequeriedOverlap: 1
   buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}

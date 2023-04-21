@@ -29,7 +29,6 @@ public class ItemContainerUI : MonoBehaviour
     public void OnPartIconClicked()
     {
         builderManager.GetActivePrefab(id);
-        builderManagerUI.SetMenuOpenState(false);
     }
 
 
