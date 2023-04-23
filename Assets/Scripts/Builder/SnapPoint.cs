@@ -46,13 +46,13 @@ public class SnapPoint : MonoBehaviour
  
     private void OnEnable()
     {
-        BuilderManager.onBuildingModeExit += DeactivateSnapPoints;
+        BuilderManager.onBuildingModeToggle += DeactivateSnapPoints;
 
     }
 
     private void OnDisable()
     {
-        BuilderManager.onBuildingModeExit -= DeactivateSnapPoints;
+        BuilderManager.onBuildingModeToggle -= DeactivateSnapPoints;
     }
 
 

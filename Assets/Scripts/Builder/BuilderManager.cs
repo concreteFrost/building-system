@@ -12,10 +12,11 @@ public class BuilderManager : MonoBehaviour
     public List<GameObject> buildingParts = new List<GameObject>();
     public GameObject partsParent;
     public GameObject currentPart;
+    private PlayerBuildingStore playerStore;
 
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction<SnapType> onPartPlaced;
-    public static UnityAction onBuildingModeExit;
+    public static UnityAction onBuildingModeToggle;
 
     public float zOffset = 5f;
     public float angle = 0f;
@@ -32,7 +33,7 @@ public class BuilderManager : MonoBehaviour
 
     private void Awake()
     {
-        
+        playerStore = GetComponentInParent<PlayerBuildingStore>();
         store = GetComponent<BuilderStore>();
         store.parts.ForEach(x =>
         {
@@ -116,43 +117,65 @@ public class BuilderManager : MonoBehaviour
     {
         RaycastHit hit;
         canBuild = false;
-        
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance))
+
+        if (buildingPart.canAfford)
         {
-            if (!hit.transform.CompareTag("snapPoint"))
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance))
             {
-                TransformManipulator.ResetPosition(buildingPart);
-            }
-            if (hit.transform.CompareTag("snapPoint"))
-            {
-                SnapPoint snapPoint = hit.transform.GetComponent<SnapPoint>();
-                TransformManipulator.SnapToSnapPoint(buildingPart, snapPoint);
-
-            }
-            if (hit.transform.CompareTag("Terrain"))
-            {
-                currentPart.transform.position = new Vector3(currentPart.transform.position.x, hit.point.y, currentPart.transform.position.z);
-            }
-
-            canBuild = OverlapCheck.CanBuild(buildingPart, hit);
-
-            if (Input.GetMouseButtonDown(0) && canBuild)
-            {
-                GameObject go = Instantiate(buildingPart.gameObject, buildingPart.transform.position,buildingPart.transform.rotation);
-                go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
-                
-                TransformManipulator.ResetPosition(buildingPart);
-
-                if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
+                if (!hit.transform.CompareTag("snapPoint"))
                 {
-                    
-                    hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
-                    go.GetComponent<BuildingPart>().parentNode = hit.transform.gameObject;
-                    go.transform.SetParent(hit.transform);
-                }      
+                    TransformManipulator.ResetPosition(buildingPart);
+                }
+                if (hit.transform.CompareTag("snapPoint"))
+                {
+                    SnapPoint snapPoint = hit.transform.GetComponent<SnapPoint>();
+                    TransformManipulator.SnapToSnapPoint(buildingPart, snapPoint);
+
+                }
+                if (hit.transform.CompareTag("Terrain"))
+                {
+                    currentPart.transform.position = new Vector3(currentPart.transform.position.x, hit.point.y, currentPart.transform.position.z);
+                }
+
+                canBuild = OverlapCheck.CanBuild(buildingPart, hit);
+
+                if (Input.GetMouseButtonDown(0) && canBuild)
+                {
+                    PlacePrefab(buildingPart, hit);
+                }
             }
         }
 
+        else
+        {
+            buildingPart.gameObject.SetActive(false);
+            currentPart = null;
+        }
+      
+
+    }
+
+    void PlacePrefab(BuildingPart buildingPart, RaycastHit hit)
+    {
+        if (buildingPart.canAfford)
+        {
+            GameObject go = Instantiate(buildingPart.gameObject, buildingPart.transform.position, buildingPart.transform.rotation);
+            go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
+
+            TransformManipulator.ResetPosition(buildingPart);
+
+            if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
+            {
+                hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
+                go.GetComponent<BuildingPart>().parentNode = hit.transform.gameObject;
+                go.transform.SetParent(hit.transform);
+            }
+
+            playerStore.RemoveIngredient(buildingPart.buildingPartSO.ingredients);
+            buildingPart.SetItemAvailable(playerStore.ingredients);
+
+
+        }
     }
 
     public void EnterDestructionMode()
@@ -166,7 +189,7 @@ public class BuilderManager : MonoBehaviour
     {
         isMenuOpen = _isMenuOpen;
         builderManagerUI.ShowMainCanvas(isMenuOpen);
-        onBuildingModeExit?.Invoke();
+        onBuildingModeToggle?.Invoke();
        
         ResetObjectToDestroy();
         

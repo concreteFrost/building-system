@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5412021667199e408c818591e8ee59d, type: 3}
-  m_Name: RoofFrontTriangle
+  m_Name: RoofCover
   m_EditorClassIdentifier: 
-  id: 12
-  name: Gable (var. 3)
-  icon: {fileID: 21300000, guid: b24765ead16d16446ad01ea589a24f4f, type: 3}
+  id: 3
+  name: Roof Cover (20 deg.)
+  icon: {fileID: 21300000, guid: d88a7b72420df0e4d83f6b62f90dff86, type: 3}
   partType: 5
-  description: Located between the joist and rake, it provides structural support
+  description: Used in order to place on top of the rake
   ingredients:
-  - ingredientType: 0
-    quantity: 2
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
+    quantity: 1
+  - ingredient: {fileID: 11400000, guid: e67e381405d04e242bc66beb7aa36224, type: 2}
+    quantity: 3

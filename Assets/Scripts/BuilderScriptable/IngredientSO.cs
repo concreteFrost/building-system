@@ -1,9 +1,22 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-[CreateAssetMenu(menuName ="Craft/Ingridients", fileName ="New Ingridient")]
-public class IngridientSO : ScriptableObject
+public enum IngredientType
 {
-    public string ingridientName;
-    public int quantity;
+    wood,
+    rock,
+    metal,
+    rope,
+    slate
 }
+[CreateAssetMenu(menuName = "Craft/Ingridients", fileName = "New Ingridient")]
+public class IngredientSO : ScriptableObject
+{
+    public IngredientType ingredientType;
+
+    public GameObject ingredientInstance;
+
+}
+
+
 

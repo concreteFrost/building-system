@@ -18,7 +18,7 @@ MonoBehaviour:
   partType: 5
   description: Used in order to place on top of the rake
   ingredients:
-  - ingredientType: 0
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
+    quantity: 1
+  - ingredient: {fileID: 11400000, guid: e67e381405d04e242bc66beb7aa36224, type: 2}
     quantity: 3
-  - ingredientType: 4
-    quantity: 5

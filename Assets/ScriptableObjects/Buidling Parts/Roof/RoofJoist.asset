@@ -20,5 +20,5 @@ MonoBehaviour:
     the weight of the roof to the walls and helping to maintain the integrity of
     the building's structure
   ingredients:
-  - ingredientType: 0
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 1

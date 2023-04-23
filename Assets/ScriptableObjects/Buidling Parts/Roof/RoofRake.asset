@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5412021667199e408c818591e8ee59d, type: 3}
-  m_Name: RoofFrontRect
+  m_Name: RoofRake
   m_EditorClassIdentifier: 
-  id: 10
-  name: Gable (var. 1)
-  icon: {fileID: 21300000, guid: e6876effe820e0f4e8fed9b4d619b48c, type: 3}
+  id: 8
+  name: Rake (20 deg.)
+  icon: {fileID: 21300000, guid: 4d0d07e45a760dd4ca29251f20cbec01, type: 3}
   partType: 5
-  description: Located between the joist and rake, it provides structural support
+  description: Provides the angled edge of a roof
   ingredients:
-  - ingredientType: 0
-    quantity: 2
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
+    quantity: 1

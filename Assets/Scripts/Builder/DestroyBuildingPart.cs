@@ -25,6 +25,12 @@ public class DestroyBuildingPart : MonoBehaviour
             Destroy(c.gameObject, 3f);
         }
         Destroy(gameObject, 3f);
+        
+        foreach(var p in part.buildingPartSO.ingredients) {
+            GameObject remain = Instantiate(p.ingredient.ingredientInstance, part.transform.position, part.transform.rotation);
+            remain.GetComponent<Item>().quantity = p.quantity;
+            remain.transform.SetParent(null);
+        }
     }
 
     public void DestroyChildPart(List<SnapPoint> snapPointsList)

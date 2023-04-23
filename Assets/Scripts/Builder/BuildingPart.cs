@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 public class BuildingPart : OutlineObject
@@ -21,6 +20,8 @@ public class BuildingPart : OutlineObject
     public bool isPlaced = false;
     public bool isTouchingGround;
     public bool isRequeriedOverlap;
+
+    public bool canAfford;
 
 
     public PhysicMaterial buildingMaterial;
@@ -130,16 +131,36 @@ public class BuildingPart : OutlineObject
         //actual prefab destroy
         destroyBuilding.PerformDestroy(this);
 
+
+
+    }
+
+    public void SetItemAvailable(List<Ingredient> playerIngredients)
+    {
+
+        canAfford = true;
+        foreach (var ingredient in buildingPartSO.ingredients)
+        {
+            var playerIngredient =playerIngredients.FirstOrDefault(x => x.ingredient == ingredient.ingredient);
+            if (playerIngredient == null || playerIngredient.quantity < ingredient.quantity)
+            {
+                
+                canAfford = false;
+                break;
+            }
+        }
     }
 
     private void OnEnable()
     {
         BuilderManager.onPartChanged += SwitchSnapPoints;
+
     }
 
     private void OnDisable()
     {
         BuilderManager.onPartChanged -= SwitchSnapPoints;
+
     }
 
 

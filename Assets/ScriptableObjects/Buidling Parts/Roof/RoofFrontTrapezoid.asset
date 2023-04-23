@@ -18,5 +18,5 @@ MonoBehaviour:
   partType: 5
   description: Located between the joist and rake, it provides structural support
   ingredients:
-  - ingredientType: 0
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 2
