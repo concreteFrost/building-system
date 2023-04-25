@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-public class BuilderManagerUI : MonoBehaviour
+public class BuilderMenuUI : MonoBehaviour
 {
     [SerializeField]
     private RectTransform centerContainer;
@@ -20,11 +20,8 @@ public class BuilderManagerUI : MonoBehaviour
     private void Awake()
     {
         store = GetComponentInParent<BuilderStore>();
-        store.parts.Sort((o1, o2) => o1.name.CompareTo(o2.name));
         StorePartsInGrid();
-        
         ShowDescriptionPanel(false);
-
     }
 
     public void GetActiveSection(string type)
@@ -32,7 +29,6 @@ public class BuilderManagerUI : MonoBehaviour
         buildingItemContainerList.ForEach(x => x.SetActive(true));
         var filtered = buildingItemContainerList.Where(x => x.GetComponent<ItemContainerUI>().partType.ToString() != type);
         filtered.ToList().ForEach(x => x.SetActive(false));
-
     }
 
     public void GetAllSections()
@@ -47,12 +43,9 @@ public class BuilderManagerUI : MonoBehaviour
         descriptionPanel.GetComponent<BuilderItemDescriptionPanelUI>().FillUpCurrentItemInfo(partToShow);
     }
 
-
-
     public void ShowDescriptionPanel(bool isShowing)
     {
-        descriptionPanel.SetActive(isShowing);
-        
+        descriptionPanel.SetActive(isShowing);    
         isDescriptionPanelActive = isShowing;
     }
 

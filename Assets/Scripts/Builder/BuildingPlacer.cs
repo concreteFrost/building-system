@@ -1,14 +1,11 @@
-using System.Linq;
+
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-
-public class BuilderManager : MonoBehaviour
+public class BuildingPlacer : MonoBehaviour
 {
     private BuilderStore store;
-    public BuilderManagerUI builderManagerUI;
-    private BuildingPart objectToDestroy;
     public List<GameObject> buildingParts = new List<GameObject>();
     public GameObject partsParent;
     public GameObject currentPart;
@@ -16,17 +13,13 @@ public class BuilderManager : MonoBehaviour
 
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction<SnapType> onPartPlaced;
-    public static UnityAction onBuildingModeToggle;
+    //public static UnityAction onBuildingModeToggle;
 
     public float zOffset = 5f;
     public float angle = 0f;
     private float rayDistance = 10f;
 
     public bool canBuild = false;
-
-    //building state booleans
-    public bool isDestructionModeActive;
-    public bool isMenuOpen;
 
     public Color canBuildColor;
     public Color cantBuildColor;
@@ -41,19 +34,13 @@ public class BuilderManager : MonoBehaviour
             buildingParts.Add(part);
             part.transform.SetParent(partsParent.transform);
         });
-
-        ToggleMainCanvas(false);
+        HideAllParts();
+        
     }
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            isMenuOpen = !isMenuOpen;
-            ToggleMainCanvas(isMenuOpen);
-        }
-      
         
         if (currentPart !=null)
         {
@@ -61,57 +48,20 @@ public class BuilderManager : MonoBehaviour
             currentPart.transform.localRotation *= TransformManipulator.RotatePart(angle);
             currentPart.transform.position = TransformManipulator.CameraCenter(zOffset);
 
-            BuildingPart buildingPart = currentPart.GetComponent<BuildingPart>();
-            SnapToSurface(buildingPart);
+            SnapToSurface(currentPart.GetComponent<BuildingPart>());
 
             if (Input.GetKeyDown(KeyCode.F))
             {
                 TransformManipulator.FlipPart(currentPart);
             }
-
         }
-
-        if (isDestructionModeActive)
-        {
-            currentPart = null;
-            RemovePrefab();
-        }
-
     }
 
-
-    void RemovePrefab()
+    public void HideAllParts()
     {
-        RaycastHit hit;
-        int buildingLayer = LayerMask.NameToLayer("Building");
-        int mask = (1 << buildingLayer);
-
-        ResetObjectToDestroy();
-
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance, mask))
-        {
-            if(hit.transform.GetComponentInParent<BuildingPart>() != null)
-            {
-  
-                objectToDestroy = hit.transform.GetComponentInParent<BuildingPart>();  
-                
-                if (!objectToDestroy.isOutlined)
-                {
-                    objectToDestroy.AddOutline();
-                    objectToDestroy.isOutlined = true;
-
-                }
-
-                if (Input.GetMouseButtonDown(0))
-                {
-                    objectToDestroy.RemoveOutline();
-                    objectToDestroy.isOutlined = false;
-                    objectToDestroy.DestroyPrefab();
-                }
-            }      
-        }
-       
+        buildingParts.ForEach(x => x.SetActive(false));
     }
+    
 
     private void SnapToSurface(BuildingPart buildingPart)
     {
@@ -145,7 +95,7 @@ public class BuilderManager : MonoBehaviour
                 }
             }
         }
-
+        //set object to non active mode if not enough recources
         else
         {
             buildingPart.gameObject.SetActive(false);
@@ -178,56 +128,9 @@ public class BuilderManager : MonoBehaviour
         }
     }
 
-    public void EnterDestructionMode()
-    {
-        isDestructionModeActive = true;
-        isMenuOpen = false;
-        ToggleMainCanvas(false);
-    }
-
-    public void ToggleMainCanvas(bool _isMenuOpen)
-    {
-        isMenuOpen = _isMenuOpen;
-        builderManagerUI.ShowMainCanvas(isMenuOpen);
-        onBuildingModeToggle?.Invoke();
-       
-        ResetObjectToDestroy();
-        
-        Cursor.visible = isMenuOpen;
-        Cursor.lockState = _isMenuOpen ? CursorLockMode.Confined : CursorLockMode.Locked;
-
-        if (isMenuOpen)
-        {
-            
-            isDestructionModeActive=false;
-            currentPart = null;       
-        }
-
-
-        if (currentPart == null)
-        {
-            buildingParts.ForEach(x => x.SetActive(false));
-            builderManagerUI.ShowBuildingModeCanvas(false);
-        }
-        
-    }
-
-    private void ResetObjectToDestroy()
-    {
-        if (objectToDestroy != null)
-        {
-            if (objectToDestroy.isOutlined)
-            {
-                objectToDestroy.RemoveOutline();
-                objectToDestroy.isOutlined = false;
-                objectToDestroy = null;
-            }
-        }
-    }
-
+    //current part is asigning here through the ItemContainerUI
     public void GetActivePrefab(int id)
     {
-
         angle = 0;
         buildingParts.ForEach(x =>
         {
@@ -235,7 +138,6 @@ public class BuilderManager : MonoBehaviour
             {
                 x.SetActive(true);
                 currentPart = x;
-                Debug.Log(currentPart.name);
             }
             else
             {
@@ -243,8 +145,6 @@ public class BuilderManager : MonoBehaviour
             }
 
         });
-        ToggleMainCanvas(false);
-        builderManagerUI.ShowBuildingModeCanvas(true);
         onPartChanged?.Invoke(currentPart.GetComponent<BuildingPart>().snapType);
 
     }

@@ -43,18 +43,15 @@ public class SnapPoint : MonoBehaviour
         _renderer.enabled = false;
     }
 
- 
     private void OnEnable()
     {
-        BuilderManager.onBuildingModeToggle += DeactivateSnapPoints;
-
+        BuilderStateManager.onBuildingModeOff += DeactivateSnapPoints;
     }
 
     private void OnDisable()
     {
-        BuilderManager.onBuildingModeToggle -= DeactivateSnapPoints;
+        BuilderStateManager.onBuildingModeOff -= DeactivateSnapPoints;
     }
-
 
 }
 

@@ -10,14 +10,14 @@ public class BuilderItemDescriptionPanelUI : MonoBehaviour
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI componentsRequiredText;
     public TextMeshProUGUI playerComponentsText;
-    private BuilderManagerUI builderManagerUI;
+    private BuilderMenuUI builderManagerUI;
     private PlayerBuildingStore playerStore;
     public BuildingPart currentPart;
 
     private void Awake()
     {
         playerStore = GetComponentInParent<PlayerBuildingStore>();
-        builderManagerUI = GetComponentInParent<BuilderManagerUI>();
+        builderManagerUI = GetComponentInParent<BuilderMenuUI>();
     }
     //this function is called when we toggle description panel.
     //it also updates when we pick up the new ingredient

@@ -153,13 +153,13 @@ public class BuildingPart : OutlineObject
 
     private void OnEnable()
     {
-        BuilderManager.onPartChanged += SwitchSnapPoints;
+        BuildingPlacer.onPartChanged += SwitchSnapPoints;
 
     }
 
     private void OnDisable()
     {
-        BuilderManager.onPartChanged -= SwitchSnapPoints;
+        BuildingPlacer.onPartChanged -= SwitchSnapPoints;
 
     }
 

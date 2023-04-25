@@ -9,30 +9,32 @@ public class ItemContainerUI : MonoBehaviour
     public RawImage icon;
     public TextMeshProUGUI text;
     public PartType partType;
-    BuilderManager builderManager;
-    BuilderManagerUI builderManagerUI;
+    BuilderStateManager stateManager;
+    BuilderMenuUI menuUI;
     
 
     private void Start()
     {
-        builderManagerUI = GetComponentInParent<BuilderManagerUI>();
+        stateManager = GetComponentInParent<BuilderStateManager>();
+        menuUI = GetComponentInParent<BuilderMenuUI>();
     }
 
     public void TogglePanelAction()
     {
-        builderManagerUI.ToggleDescriptionPanel(id);
+        menuUI.ToggleDescriptionPanel(id);
     }
 
     public void OnPartIconClicked()
     {
-        builderManager.GetActivePrefab(id);
+        stateManager.EnterBuildingMode(id);
+
     }
     //this function enables/disables icons every time when the component is active or 
     //every time when player picks up item or remove the ingredient
     //or build something
     public void ItemIsAvailable()
     {
-        builderManager = GetComponentInParent<BuilderManager>();
+        var builderManager = GetComponentInParent<BuildingPlacer>();
         if (builderManager != null)
         {
             var buildingPart = builderManager.buildingParts.FirstOrDefault(x => x.GetComponent<BuildingPart>().buildingPartSO.id == id).GetComponent<BuildingPart>();

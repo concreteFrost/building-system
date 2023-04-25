@@ -7,16 +7,16 @@ using System.Linq;
 public class PlayerBuildingStore : MonoBehaviour
 {
     public List<Ingredient> ingredients;
-    private BuilderManager builder;
-    private BuilderManagerUI managerUI;
+    private BuildingPlacer builder;
+    private BuilderMenuUI managerUI;
     private BuilderItemDescriptionPanelUI descriptionPanelUI;
     public static UnityAction onAvailabilityCheck;
 
     private void Start()
     {
-        builder = GetComponent<BuilderManager>();
+        builder = GetComponent<BuildingPlacer>();
        
-        managerUI = GetComponentInChildren<BuilderManagerUI>();
+        managerUI = GetComponentInChildren<BuilderMenuUI>();
         descriptionPanelUI = managerUI.descriptionPanel.GetComponent<BuilderItemDescriptionPanelUI>();
         CheckIfAffordable();
     }

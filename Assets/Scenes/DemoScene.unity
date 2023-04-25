@@ -461,9 +461,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 227459056}
+  - component: {fileID: 227459060}
   - component: {fileID: 227459055}
   - component: {fileID: 227459058}
   - component: {fileID: 227459059}
+  - component: {fileID: 227459061}
   m_Layer: 0
   m_Name: Builder
   m_TagString: Untagged
@@ -483,15 +485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d5c22ff431e949ab630c142526ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  builderManagerUI: {fileID: 367340757}
   buildingParts: []
   partsParent: {fileID: 985575624}
   currentPart: {fileID: 0}
   zOffset: 3
   angle: 0
   canBuild: 0
-  isDestructionModeActive: 1
-  isMenuOpen: 0
   canBuildColor: {r: 0.08900952, g: 1, b: 0, a: 0}
   cantBuildColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!4 &227459056
@@ -553,6 +552,32 @@ MonoBehaviour:
   ingredients:
   - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 20
+--- !u!114 &227459060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227459054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022fac3b221dd7645bb7e56e37858fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+--- !u!114 &227459061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227459054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728fb1435d3f3504a96cb064221fed5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDestructionModeActive: 0
 --- !u!850595691 &251004771
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -3275,7 +3300,7 @@ PrefabInstance:
     - target: {fileID: 6368642391187776359, guid: 34c774dda5fe40442b5c81c2cdff10e7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 227459055}
+      objectReference: {fileID: 227459060}
     - target: {fileID: 6368642391187776359, guid: 34c774dda5fe40442b5c81c2cdff10e7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -3286,7 +3311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6368642391187776359, guid: 34c774dda5fe40442b5c81c2cdff10e7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BuilderManager, Assembly-CSharp
+      value: BuilderStateManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6368642391187776359, guid: 34c774dda5fe40442b5c81c2cdff10e7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
