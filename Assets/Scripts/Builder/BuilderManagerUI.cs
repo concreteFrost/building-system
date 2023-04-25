@@ -52,6 +52,7 @@ public class BuilderManagerUI : MonoBehaviour
     public void ShowDescriptionPanel(bool isShowing)
     {
         descriptionPanel.SetActive(isShowing);
+        
         isDescriptionPanelActive = isShowing;
     }
 

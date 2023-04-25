@@ -11,9 +11,10 @@ public class ItemContainerUI : MonoBehaviour
     public PartType partType;
     BuilderManager builderManager;
     BuilderManagerUI builderManagerUI;
+    
 
     private void Start()
-    {       
+    {
         builderManagerUI = GetComponentInParent<BuilderManagerUI>();
     }
 
@@ -24,10 +25,11 @@ public class ItemContainerUI : MonoBehaviour
 
     public void OnPartIconClicked()
     {
-
         builderManager.GetActivePrefab(id);
     }
-
+    //this function enables/disables icons every time when the component is active or 
+    //every time when player picks up item or remove the ingredient
+    //or build something
     public void ItemIsAvailable()
     {
         builderManager = GetComponentInParent<BuilderManager>();
@@ -40,13 +42,21 @@ public class ItemContainerUI : MonoBehaviour
                 icon.GetComponent<Button>().enabled = buildingPart.canAfford;
             }
         }
-        
+
     }
 
     private void OnEnable()
-    {   
+    {
+        PlayerBuildingStore.onAvailabilityCheck += ItemIsAvailable;
         ItemIsAvailable();
     }
+
+    private void OnDisable()
+    {
+        PlayerBuildingStore.onAvailabilityCheck -= ItemIsAvailable;
+    }
+
+
 
 
 

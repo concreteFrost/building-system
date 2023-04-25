@@ -1,9 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using TMPro;
-using System.Linq;
 
 public class BuilderItemDescriptionPanelUI : MonoBehaviour
 {
@@ -14,42 +12,35 @@ public class BuilderItemDescriptionPanelUI : MonoBehaviour
     public TextMeshProUGUI playerComponentsText;
     private BuilderManagerUI builderManagerUI;
     private PlayerBuildingStore playerStore;
+    public BuildingPart currentPart;
 
-    private void Start()
+    private void Awake()
     {
+        playerStore = GetComponentInParent<PlayerBuildingStore>();
         builderManagerUI = GetComponentInParent<BuilderManagerUI>();
-      
     }
-
-    // Start is called before the first frame update
+    //this function is called when we toggle description panel.
+    //it also updates when we pick up the new ingredient
     public void FillUpCurrentItemInfo(BuildingPart part)
     {
         ResetInfo();
+        currentPart = part;
+        itemIcon.texture = currentPart.buildingPartSO.icon.texture;
+        nameText.text = currentPart.buildingPartSO.name;
+        descriptionText.text = "Description: " + currentPart.buildingPartSO.description;
 
-        itemIcon.texture = part.buildingPartSO.icon.texture;
-        nameText.text = part.buildingPartSO.name;
-        descriptionText.text = "Description: " + part.buildingPartSO.description;
+        currentPart.buildingPartSO.ingredients.ForEach(x => componentsRequiredText.text += "\n"+ x.ingredient.ingredientType + ": " + x.quantity ) ;
 
-        part.buildingPartSO.ingredients.ForEach(x => componentsRequiredText.text += x.ingredient.ingredientType + ": " + x.quantity + "\n");
-
-        playerStore = GetComponentInParent<PlayerBuildingStore>();
-
-        part.buildingPartSO.ingredients.ForEach(x =>
+        currentPart.buildingPartSO.ingredients.ForEach(x =>
         {
             playerStore.ingredients.ForEach(y =>
             {
                 if(y.ingredient.ingredientType == x.ingredient.ingredientType)
                 {
-                    playerComponentsText.text += "\n" + y.ingredient.ingredientType + ":" + y.quantity + "\n";
-                }
-                else
-                {
-                    playerComponentsText.text += x.ingredient.ingredientType + ": " + 0 + "\n";
-                    
-                }
+                    playerComponentsText.text += "\n" + y.ingredient.ingredientType + ":" + y.quantity;
+                }       
             });
         });
-       
     }
 
     public void ClosePanel()
@@ -65,6 +56,8 @@ public class BuilderItemDescriptionPanelUI : MonoBehaviour
         componentsRequiredText.text = "Components Required: ";
         playerComponentsText.text = "You have: ";
     }
+
+    
 
 
 }

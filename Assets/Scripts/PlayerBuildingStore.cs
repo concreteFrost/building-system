@@ -7,12 +7,17 @@ using System.Linq;
 public class PlayerBuildingStore : MonoBehaviour
 {
     public List<Ingredient> ingredients;
-    BuilderManager builder;
+    private BuilderManager builder;
+    private BuilderManagerUI managerUI;
+    private BuilderItemDescriptionPanelUI descriptionPanelUI;
     public static UnityAction onAvailabilityCheck;
 
     private void Start()
     {
         builder = GetComponent<BuilderManager>();
+       
+        managerUI = GetComponentInChildren<BuilderManagerUI>();
+        descriptionPanelUI = managerUI.descriptionPanel.GetComponent<BuilderItemDescriptionPanelUI>();
         CheckIfAffordable();
     }
 
@@ -31,12 +36,28 @@ public class PlayerBuildingStore : MonoBehaviour
                 var sameType = ingredients.FirstOrDefault(x => x.ingredient.ingredientType == ingredient.ingredient.ingredientType);
 
                 if (sameType == null || sameType.quantity < ingredient.quantity)
-                {
+                {   
                     part.canAfford = false;
                     break;
                 }
             }
         }
+
+        foreach(var _part in builder.buildingParts)
+        {
+            var part = _part.GetComponent<BuildingPart>();
+            if(descriptionPanelUI.currentPart != null && managerUI.isDescriptionPanelActive)
+            {
+                if (part.buildingPartSO.id == descriptionPanelUI.currentPart.buildingPartSO.id)
+                {
+                    descriptionPanelUI.FillUpCurrentItemInfo(part);
+                    break;
+                }
+            }
+   
+        }
+
+        onAvailabilityCheck?.Invoke();
     }
 
     public void AddIngredient(Ingredient ingredient)

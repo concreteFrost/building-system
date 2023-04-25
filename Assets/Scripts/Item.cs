@@ -16,7 +16,7 @@ public class Item : MonoBehaviour
 
         itemIngredient.ingredient = ingredientSO;
         itemIngredient.quantity = quantity;
-        Debug.Log(quantity);
+
     }
 
     private void OnTriggerEnter(Collider other)
