@@ -68,6 +68,7 @@ public class BuilderStateManager : MonoBehaviour
         buildingMenuUI.ShowDescriptionPanel(false);
         buildingPlacer.currentPart = null;
         buildingPlacer.HideAllParts();
+        buildingPlacer.SetActiveBuildingModePanelState(false);
         builderDesctructionMode.isDestructionModeActive = false;
         builderDesctructionMode.ResetObjectToDestroy();
         onBuildingModeOff?.Invoke();
@@ -82,6 +83,7 @@ public class BuilderStateManager : MonoBehaviour
         buildingMenuUI.ShowMainCanvas(false);
         buildingPlacer.currentPart = null;
         buildingPlacer.HideAllParts();
+        buildingPlacer.SetActiveBuildingModePanelState(false);
         builderDesctructionMode.isDestructionModeActive = false;
         builderDesctructionMode.ResetObjectToDestroy();
         onBuildingModeOff?.Invoke();
@@ -96,6 +98,7 @@ public class BuilderStateManager : MonoBehaviour
         buildingMenuUI.ShowMainCanvas(false);
         buildingPlacer.currentPart = null;
         buildingPlacer.HideAllParts();
+        buildingPlacer.SetActiveBuildingModePanelState(false);
         builderDesctructionMode.isDestructionModeActive = true;
         onBuildingModeOff?.Invoke();
         SetCursorMode();
@@ -109,7 +112,8 @@ public class BuilderStateManager : MonoBehaviour
 
         //prefab id is derriving from ItemContainerUI 
         //when we click on the item icon
-        buildingPlacer.GetActivePrefab(id);     
+        buildingPlacer.GetActivePrefab(id);
+        buildingPlacer.SetActiveBuildingModePanelState(true);
         buildingMenuUI.ShowMainCanvas(false);
         builderDesctructionMode.isDestructionModeActive = false;
         builderDesctructionMode.ResetObjectToDestroy();

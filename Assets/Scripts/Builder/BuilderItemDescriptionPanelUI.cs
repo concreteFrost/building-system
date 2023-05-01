@@ -12,7 +12,7 @@ public class BuilderItemDescriptionPanelUI : MonoBehaviour
     public TextMeshProUGUI playerComponentsText;
     private BuilderMenuUI builderManagerUI;
     private PlayerBuildingStore playerStore;
-    public BuildingPart currentPart;
+    public Part currentPart;
 
     private void Awake()
     {
@@ -21,17 +21,17 @@ public class BuilderItemDescriptionPanelUI : MonoBehaviour
     }
     //this function is called when we toggle description panel.
     //it also updates when we pick up the new ingredient
-    public void FillUpCurrentItemInfo(BuildingPart part)
+    public void FillUpCurrentItemInfo(Part part)
     {
         ResetInfo();
         currentPart = part;
-        itemIcon.texture = currentPart.buildingPartSO.icon.texture;
-        nameText.text = currentPart.buildingPartSO.name;
-        descriptionText.text = "Description: " + currentPart.buildingPartSO.description;
+        itemIcon.texture = currentPart.partSO.icon.texture;
+        nameText.text = currentPart.partSO.name;
+        descriptionText.text = "Description: " + currentPart.partSO.description;
 
-        currentPart.buildingPartSO.ingredients.ForEach(x => componentsRequiredText.text += "\n"+ x.ingredient.ingredientType + ": " + x.quantity ) ;
+        currentPart.partSO.ingredients.ForEach(x => componentsRequiredText.text += "\n"+ x.ingredient.ingredientType + ": " + x.quantity ) ;
 
-        currentPart.buildingPartSO.ingredients.ForEach(x =>
+        currentPart.partSO.ingredients.ForEach(x =>
         {
             playerStore.ingredients.ForEach(y =>
             {

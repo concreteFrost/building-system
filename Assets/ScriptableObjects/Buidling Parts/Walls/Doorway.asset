@@ -15,8 +15,9 @@ MonoBehaviour:
   id: 2
   name: Doorway
   icon: {fileID: 21300000, guid: 088dd80c43fa7f14b8a3a44c84f3119c, type: 3}
-  partType: 1
+  partType: 0
   description: Place this part in order to attach door to it
   ingredients:
   - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 10
+  buildingType: 0

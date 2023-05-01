@@ -9,7 +9,7 @@ public class BuilderMenuUI : MonoBehaviour
     private RectTransform centerContainer;
     private BuilderStore store;
 
-    private List<GameObject> buildingItemContainerList = new List<GameObject>();
+    private List<GameObject> itemContainerList = new List<GameObject>();
 
     public GameObject itemContainer;
     public GameObject canvas;
@@ -22,24 +22,32 @@ public class BuilderMenuUI : MonoBehaviour
         store = GetComponentInParent<BuilderStore>();
         StorePartsInGrid();
         ShowDescriptionPanel(false);
+       
     }
 
-    public void GetActiveSection(string type)
+    private void Start()
     {
-        buildingItemContainerList.ForEach(x => x.SetActive(true));
-        var filtered = buildingItemContainerList.Where(x => x.GetComponent<ItemContainerUI>().partType.ToString() != type);
+        GetSection("building");
+    }
+
+    public void GetSubSection(string type)
+    {
+        itemContainerList.ForEach(x => x.SetActive(true));
+        var filtered = itemContainerList.Where(x => x.GetComponent<ItemContainerUI>().subSectionType.ToString() != type);
         filtered.ToList().ForEach(x => x.SetActive(false));
     }
 
-    public void GetAllSections()
+    public void GetSection(string type)
     {
-        buildingItemContainerList.ForEach(x => x.SetActive(true));
+        itemContainerList.ForEach(x => x.SetActive(true));
+        var filtered = itemContainerList.Where(x => x.GetComponent<ItemContainerUI>().sectionType.ToString() != type);
+        filtered.ToList().ForEach(x => x.SetActive(false));
     }
 
     public void ToggleDescriptionPanel(int id)
     {
         ShowDescriptionPanel(true);
-        var partToShow = store.parts.Find(x => x.GetComponent<BuildingPart>().buildingPartSO.id == id).GetComponent<BuildingPart>();
+        var partToShow = store.parts.Find(x => x.GetComponent<Part>().partSO.id == id).GetComponent<Part>();
         descriptionPanel.GetComponent<BuilderItemDescriptionPanelUI>().FillUpCurrentItemInfo(partToShow);
     }
 
@@ -54,14 +62,28 @@ public class BuilderMenuUI : MonoBehaviour
         store.parts.ForEach(x =>
         {
             GameObject _item = Instantiate(itemContainer);
-            var itemData = x.GetComponent<BuildingPart>().buildingPartSO;
+           
+            var itemData = x.GetComponent<Part>().partSO;
             _item.GetComponent<ItemContainerUI>().id = itemData.id;
             _item.GetComponent<ItemContainerUI>().icon.texture = itemData.icon.texture;
-            _item.GetComponent<ItemContainerUI>().text.text = itemData.name;
-            _item.GetComponent<ItemContainerUI>().partType = itemData.partType;
+            _item.GetComponent<ItemContainerUI>().text.text = itemData.name;      
             _item.name = itemData.name;
+
+            _item.GetComponent<ItemContainerUI>().sectionType = itemData.partType.ToString();
+
+            if (itemData.partType == PartType.building)
+            {
+                _item.GetComponent<ItemContainerUI>().subSectionType = x.GetComponent<BuildingPart>().buildingType.ToString();
+            }
+
+            if(itemData.partType == PartType.furniture)
+            {
+                _item.GetComponent<ItemContainerUI>().subSectionType = x.GetComponent<FurniturePart>().furnitureType.ToString();
+            }
+           
             _item.transform.SetParent(centerContainer.transform);
-            buildingItemContainerList.Add(_item);
+            _item.transform.GetComponent<RectTransform>().localScale = Vector3.one * .7f;
+            itemContainerList.Add(_item);
         });
     }
 

@@ -15,8 +15,9 @@ MonoBehaviour:
   id: 10
   name: Gable (var. 1)
   icon: {fileID: 21300000, guid: e6876effe820e0f4e8fed9b4d619b48c, type: 3}
-  partType: 5
+  partType: 0
   description: Located between the joist and rake, it provides structural support
   ingredients:
   - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 2
+  buildingType: 0

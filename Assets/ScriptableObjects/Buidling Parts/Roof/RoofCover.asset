@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 3
   name: Roof Cover (20 deg.)
   icon: {fileID: 21300000, guid: d88a7b72420df0e4d83f6b62f90dff86, type: 3}
-  partType: 5
+  partType: 0
   description: Used in order to place on top of the rake
   ingredients:
   - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 1
   - ingredient: {fileID: 11400000, guid: e67e381405d04e242bc66beb7aa36224, type: 2}
     quantity: 3
+  buildingType: 0

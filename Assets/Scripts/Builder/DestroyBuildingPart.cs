@@ -26,7 +26,7 @@ public class DestroyBuildingPart : MonoBehaviour
         }
         Destroy(gameObject, 3f);
         
-        foreach(var p in part.buildingPartSO.ingredients) {
+        foreach(var p in part.partSO.ingredients) {
             GameObject remain = Instantiate(p.ingredient.ingredientInstance, part.transform.position, part.transform.rotation);
             remain.GetComponent<Item>().quantity = p.quantity;
             remain.transform.SetParent(null);

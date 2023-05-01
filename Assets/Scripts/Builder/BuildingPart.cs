@@ -1,42 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public class BuildingPart : OutlineObject
+public class BuildingPart : Part
 {
-    public BuildingPartSO buildingPartSO;
-    DestroyBuildingPart destroyBuilding;
-
-    public SnapType snapType;
-
+  
     public GameObject snapPoints;
-    public GameObject part;
+
     public GameObject parentNode;
 
     public List<SnapPoint> snapPointsList = new List<SnapPoint>();
 
-    public Vector3 overlapSize;
-    public Vector3 overlapPosition;
+    public SnapType snapType;
 
-    public bool isPlaced = false;
-    public bool isTouchingGround;
-    public bool isRequeriedOverlap;
-
-    public bool canAfford;
-
-
-    public PhysicMaterial buildingMaterial;
-
-    private void Awake()
-    {
-        objectRenderer = part.GetComponentsInChildren<MeshRenderer>();
-
-        destroyBuilding = GetComponent<DestroyBuildingPart>();
-        if (!isPlaced)
-        {
-            part.GetComponentsInChildren<Collider>().ToList().ForEach(x => x.enabled = false);
-        }
-        
-    }
+    public BuildingType buildingType;
 
     private void Start()
     {
@@ -57,26 +33,11 @@ public class BuildingPart : OutlineObject
         }
     }
 
-
-    public void SetColor(Color tempColor)
+    public override void SetColor(Color tempColor)
     {
-        Renderer[] materials = part.GetComponentsInChildren<Renderer>();
-
-        foreach (var material in materials)
-        {
-            if (isPlaced)
-            {
-                tempColor.a = 1f;
-            }
-            else
-            {
-                tempColor.a = 0.5f;
-            }
-            material.material.color = tempColor;
-        }
-
+        base.SetColor(tempColor);
     }
-
+    
     private void SwitchSnapPoints(SnapType snap)
     {
         if (isPlaced)
@@ -98,14 +59,11 @@ public class BuildingPart : OutlineObject
 
     public void OnPartPlaced(SnapType snap)
     {
-        isPlaced = true;
-        
+           
         if (isPlaced)
         {
-            SwitchSnapPoints(snap);
-            SetColor(Color.white);
-            part.transform.GetComponentsInChildren<Collider>().All(x => x.enabled = true);
-
+            SwitchSnapPoints(snap);         
+            
         }
         if (parentNode != null)
         {
@@ -113,12 +71,9 @@ public class BuildingPart : OutlineObject
             parentNode.GetComponent<SnapPoint>().DeactivateSnapPoints();
         }
     }
-    public void DestroyPrefab()
+    public override void DestroyPrefab()
     {
-        if (!isPlaced)
-        {
-            return;
-        }
+        base.DestroyPrefab();
  
         snapPointsList.ForEach(x => x.DeactivateSnapPoints());
 
@@ -131,25 +86,26 @@ public class BuildingPart : OutlineObject
         //actual prefab destroy
         destroyBuilding.PerformDestroy(this);
 
-
-
     }
 
-    public void SetItemAvailable(List<Ingredient> playerIngredients)
+    public override void SetItemAvailable(List<Ingredient> playerIngredients)
     {
+        base.SetItemAvailable(playerIngredients);
+    }
 
-        canAfford = true;
-        foreach (var ingredient in buildingPartSO.ingredients)
+    public override bool CanBuild(RaycastHit hit)
+    {
+        if (isTouchingGround && snapType == SnapType.Surface)
         {
-            var playerIngredient =playerIngredients.FirstOrDefault(x => x.ingredient == ingredient.ingredient);
-            if (playerIngredient == null || playerIngredient.quantity < ingredient.quantity)
-            {
-                
-                canAfford = false;
-                break;
-            }
+            return CheckOverlap();
+        }
+        else
+        {
+            return hit.transform.CompareTag("snapPoint") && CheckOverlap() && OverlapCheck.FloorCheck(part);
         }
     }
+
+
 
     private void OnEnable()
     {

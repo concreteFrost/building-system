@@ -9,6 +9,7 @@ public class BuildingPlacer : MonoBehaviour
     public List<GameObject> buildingParts = new List<GameObject>();
     public GameObject partsParent;
     public GameObject currentPart;
+    public GameObject activeBuildingModePanel;
     private PlayerBuildingStore playerStore;
 
     public static UnityAction<SnapType> onPartChanged;
@@ -35,6 +36,7 @@ public class BuildingPlacer : MonoBehaviour
             part.transform.SetParent(partsParent.transform);
         });
         HideAllParts();
+        SetActiveBuildingModePanelState(false);
         
     }
 
@@ -44,11 +46,11 @@ public class BuildingPlacer : MonoBehaviour
         
         if (currentPart !=null)
         {
-            currentPart.GetComponent<BuildingPart>().SetColor(canBuild ? canBuildColor : cantBuildColor);
+            currentPart.GetComponent<Part>().SetColor(canBuild ? canBuildColor : cantBuildColor);
             currentPart.transform.localRotation *= TransformManipulator.RotatePart(angle);
             currentPart.transform.position = TransformManipulator.CameraCenter(zOffset);
 
-            SnapToSurface(currentPart.GetComponent<BuildingPart>());
+            SnapToSurface(currentPart.GetComponent<Part>());
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -57,75 +59,85 @@ public class BuildingPlacer : MonoBehaviour
         }
     }
 
-    public void HideAllParts()
-    {
-        buildingParts.ForEach(x => x.SetActive(false));
-    }
-    
-
-    private void SnapToSurface(BuildingPart buildingPart)
+    private void SnapToSurface(Part part)
     {
         RaycastHit hit;
         canBuild = false;
 
-        if (buildingPart.canAfford)
+        if (part.canAfford)
         {
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, rayDistance))
             {
-                if (!hit.transform.CompareTag("snapPoint"))
+                if(part.partSO.partType == PartType.building)
                 {
-                    TransformManipulator.ResetPosition(buildingPart);
+                    SnapToSnapPoint(hit, part);
                 }
-                if (hit.transform.CompareTag("snapPoint"))
-                {
-                    SnapPoint snapPoint = hit.transform.GetComponent<SnapPoint>();
-                    TransformManipulator.SnapToSnapPoint(buildingPart, snapPoint);
 
-                }
-                if (hit.transform.CompareTag("Terrain"))
+                else
                 {
                     currentPart.transform.position = new Vector3(currentPart.transform.position.x, hit.point.y, currentPart.transform.position.z);
                 }
-
-                canBuild = OverlapCheck.CanBuild(buildingPart, hit);
+              
+                canBuild = part.CanBuild(hit);
 
                 if (Input.GetMouseButtonDown(0) && canBuild)
                 {
-                    PlacePrefab(buildingPart, hit);
+                    PlacePrefab(part, hit);
                 }
             }
         }
         //set object to non active mode if not enough recources
         else
         {
-            buildingPart.gameObject.SetActive(false);
+            part.gameObject.SetActive(false);
             currentPart = null;
         }
       
-
     }
 
-    void PlacePrefab(BuildingPart buildingPart, RaycastHit hit)
+    void SnapToSnapPoint(RaycastHit hit, Part part)
     {
-        if (buildingPart.canAfford)
+        if (!hit.transform.CompareTag("snapPoint"))
         {
-            GameObject go = Instantiate(buildingPart.gameObject, buildingPart.transform.position, buildingPart.transform.rotation);
-            go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
+            TransformManipulator.ResetPosition(part);
+        }
+        if (hit.transform.CompareTag("snapPoint"))
+        {
+            SnapPoint snapPoint = hit.transform.GetComponent<SnapPoint>();
+            TransformManipulator.SnapToSnapPoint(part.GetComponent<BuildingPart>(), snapPoint);
+        }
+        if (hit.transform.CompareTag("Terrain"))
+        {
+            currentPart.transform.position = new Vector3(currentPart.transform.position.x, hit.point.y, currentPart.transform.position.z);
+        }
+    }
 
-            TransformManipulator.ResetPosition(buildingPart);
+    void PlacePrefab(Part part, RaycastHit hit)
+    {
+        if (part.canAfford)
+        {
+            GameObject go = Instantiate(part.gameObject, part.transform.position, part.transform.rotation);
+            go.GetComponent<Part>().PlacePrefab();
 
-            if (hit.transform.CompareTag("snapPoint") && !buildingPart.isTouchingGround)
+            if (go.GetComponent<BuildingPart>() != null)
             {
-                hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
-                go.GetComponent<BuildingPart>().parentNode = hit.transform.gameObject;
-                go.transform.SetParent(hit.transform);
+                go.GetComponent<BuildingPart>().OnPartPlaced(currentPart.GetComponent<BuildingPart>().snapType);
+
+                if (hit.transform.CompareTag("snapPoint") && !part.isTouchingGround)
+                {
+                    hit.transform.GetComponent<SnapPoint>().DeactivateSnapPoints();
+                    go.GetComponent<BuildingPart>().parentNode = hit.transform.gameObject;
+                    go.transform.SetParent(hit.transform);
+                }
             }
 
-            playerStore.RemoveIngredient(buildingPart.buildingPartSO.ingredients);
-            buildingPart.SetItemAvailable(playerStore.ingredients);
-
-
+            TransformManipulator.ResetPosition(part);
+            playerStore.RemoveIngredient(part.partSO.ingredients);
+            part.SetItemAvailable(playerStore.ingredients);
+      
         }
+
+        
     }
 
     //current part is asigning here through the ItemContainerUI
@@ -134,7 +146,7 @@ public class BuildingPlacer : MonoBehaviour
         angle = 0;
         buildingParts.ForEach(x =>
         {
-            if (x.GetComponent<BuildingPart>().buildingPartSO.id == id)
+            if (x.GetComponent<Part>().partSO.id == id)
             {
                 x.SetActive(true);
                 currentPart = x;
@@ -145,8 +157,21 @@ public class BuildingPlacer : MonoBehaviour
             }
 
         });
+
+        if(currentPart.GetComponent<Part>().partSO.partType == PartType.building)
         onPartChanged?.Invoke(currentPart.GetComponent<BuildingPart>().snapType);
 
+    }
+
+
+    public void HideAllParts()
+    {
+        buildingParts.ForEach(x => x.SetActive(false));
+    }
+
+    public void SetActiveBuildingModePanelState(bool isActive)
+    {
+        activeBuildingModePanel.SetActive(isActive);
     }
 
 

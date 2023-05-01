@@ -15,8 +15,9 @@ MonoBehaviour:
   id: 6
   name: Stairs
   icon: {fileID: 21300000, guid: 1987ac2eebec83f4a884a732fd51e101, type: 3}
-  partType: 2
+  partType: 0
   description: Lasting wooden stairs
   ingredients:
   - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 13
+  buildingType: 0

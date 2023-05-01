@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Linq;
-using System.Collections.Generic;
+
 
 public enum SnapType
 {
@@ -12,7 +11,9 @@ public enum SnapType
     RoofRakeFlat,
     RoofFront,
     RoofCover,
-    RoofCoverFlat
+    RoofCoverFlat,
+    Window,
+    Door,
 }
 
 public class SnapPoint : MonoBehaviour

@@ -3,15 +3,16 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
+
 public class ItemContainerUI : MonoBehaviour
 {
     public int id;
     public RawImage icon;
     public TextMeshProUGUI text;
-    public PartType partType;
+    public string sectionType;
+    public string subSectionType;
     BuilderStateManager stateManager;
     BuilderMenuUI menuUI;
-    
 
     private void Start()
     {
@@ -37,7 +38,7 @@ public class ItemContainerUI : MonoBehaviour
         var builderManager = GetComponentInParent<BuildingPlacer>();
         if (builderManager != null)
         {
-            var buildingPart = builderManager.buildingParts.FirstOrDefault(x => x.GetComponent<BuildingPart>().buildingPartSO.id == id).GetComponent<BuildingPart>();
+            var buildingPart = builderManager.buildingParts.FirstOrDefault(x => x.GetComponent<Part>().partSO.id == id).GetComponent<Part>();
             if (buildingPart != null)
             {
                 icon.color = buildingPart.canAfford ? Color.white : Color.red;

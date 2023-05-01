@@ -1,24 +1,14 @@
 fileFormatVersion: 2
-guid: de5a56abfdde76e439783aa6dc701174
+guid: 5056e4f71e1132546a3c66babadf1a97
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LogHoriszontal
-    second: {fileID: 2100000, guid: 01ad846f2fe6e954db3ddcfff2c32afa, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LogVertical
-    second: {fileID: 2100000, guid: bd400a31f0f39754f8e5052cf57d0248, type: 2}
+  externalObjects: {}
   materials:
-    materialImportMode: 1
-    materialName: 1
+    materialImportMode: 2
+    materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 7
   name: Joist
   icon: {fileID: 21300000, guid: 17b973bdfa7f18b449fdca1e66966b14, type: 3}
-  partType: 5
+  partType: 0
   description: Roof joists provide structural support for the roof, transferring
     the weight of the roof to the walls and helping to maintain the integrity of
     the building's structure
   ingredients:
   - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
     quantity: 1
+  buildingType: 0
