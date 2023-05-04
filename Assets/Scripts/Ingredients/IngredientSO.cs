@@ -7,7 +7,8 @@ public enum IngredientType
     rock,
     metal,
     rope,
-    slate
+    slate,
+    fabric
 }
 [CreateAssetMenu(menuName = "Craft/Ingridients", fileName = "New Ingridient")]
 public class IngredientSO : ScriptableObject

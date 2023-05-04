@@ -656,7 +656,8 @@ MonoBehaviour:
   id: 0
   icon: {fileID: 472163843272118678}
   text: {fileID: 5926422413511956046}
-  partType: 0
+  sectionType: 
+  subSectionType: 
 --- !u!1 &8717430449730628147
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +695,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1517587131454907743
 CanvasRenderer:

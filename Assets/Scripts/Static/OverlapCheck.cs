@@ -2,10 +2,10 @@ using UnityEngine;
 
 public static class OverlapCheck
 {
-    static Vector3 floorOverlapSize = new Vector3(0.1f, 999, 0.1f);
+    //static Vector3 floorOverlapSize = new Vector3(0.1f, 999, 0.1f);
 
 
-    public static bool FloorCheck(GameObject part)
+    public static bool FloorCheck(GameObject part, Vector3 floorOverlapSize)
     {
         var mask = 1 << LayerMask.NameToLayer("SnapPoint");
 
