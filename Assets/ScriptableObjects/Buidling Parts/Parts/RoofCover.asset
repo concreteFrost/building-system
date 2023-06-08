@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5412021667199e408c818591e8ee59d, type: 3}
+  m_Name: RoofCover
+  m_EditorClassIdentifier: 
+  id: 3
+  itemName: Roof Cover
+  itemPrice: 7
+  icon: {fileID: 21300000, guid: d88a7b72420df0e4d83f6b62f90dff86, type: 3}
+  partType: 0
+  description: Used in order to place on top of the rake
+  ingredients:
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
+    quantity: 1
+  - ingredient: {fileID: 11400000, guid: e67e381405d04e242bc66beb7aa36224, type: 2}
+    quantity: 3
+  buildingType: 5

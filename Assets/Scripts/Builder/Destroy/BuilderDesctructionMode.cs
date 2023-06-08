@@ -7,6 +7,12 @@ public class BuilderDesctructionMode : MonoBehaviour
     private Part objectToDestroy;
     private float rayDistance = 10f;
     public bool isDestructionModeActive = false;
+    public GameObject destructionPanel;
+
+    private void Start()
+    {
+        ShowDestructionPanel(false);
+    }
 
     private void Update()
     {
@@ -31,7 +37,7 @@ public class BuilderDesctructionMode : MonoBehaviour
             {
 
                 objectToDestroy = hit.transform.GetComponentInParent<Part>();
-
+              
                 if (!objectToDestroy.isOutlined)
                 {
                     objectToDestroy.AddOutline();
@@ -44,6 +50,7 @@ public class BuilderDesctructionMode : MonoBehaviour
                     objectToDestroy.RemoveOutline();
                     objectToDestroy.isOutlined = false;
                     objectToDestroy.DestroyPrefab();
+                   
                 }
             }
         }
@@ -60,5 +67,10 @@ public class BuilderDesctructionMode : MonoBehaviour
                 objectToDestroy = null;
             }
         }
+    }
+
+    public void ShowDestructionPanel(bool isActive)
+    {
+        destructionPanel.SetActive(isActive);
     }
 }

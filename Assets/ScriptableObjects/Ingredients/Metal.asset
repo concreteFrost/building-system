@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f062a97c61e2ccc4082585b3cc9d235f, type: 3}
   m_Name: Metal
   m_EditorClassIdentifier: 
+  id: 2131330421
   ingredientType: 2
   ingredientInstance: {fileID: 4596193941742443038, guid: a92d19f453c9fb047b48982b6e95bc60, type: 3}
+  ingredientPrice: 15
+  ingredientName: Metal
+  ingredientDescrption: Strong and malleable, metals are essential for creating sturdy
+    structures and crafting tools.
+  ingedientIcon: {fileID: -532166542, guid: 22ebc6583f1e5e34e894f90dde6d182d, type: 3}

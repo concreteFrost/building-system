@@ -24,13 +24,8 @@ public class DestroyBuildingPart : MonoBehaviour
 
             Destroy(c.gameObject, 3f);
         }
-        Destroy(gameObject, 3f);
-        
-        foreach(var p in part.partSO.ingredients) {
-            GameObject remain = Instantiate(p.ingredient.ingredientInstance, part.transform.position, part.transform.rotation);
-            remain.GetComponent<Item>().quantity = p.quantity;
-            remain.transform.SetParent(null);
-        }
+
+        Destroy(gameObject, 3f);   
     }
 
     public void DestroyChildPart(List<SnapPoint> snapPointsList)
@@ -42,7 +37,7 @@ public class DestroyBuildingPart : MonoBehaviour
                 BuildingPart[] childParts = x.GetComponentsInChildren<BuildingPart>();
                 childParts.ToList().ForEach(c =>
                 {
-                    c.DestroyPrefab();
+                    c.DestroyPrefab();                
                     c.snapPointsList.ForEach(s => s.DeactivateSnapPoints());
                 });
 

@@ -86,10 +86,6 @@ public class BuildingPart : Part
 
     }
 
-    public override void SetItemAvailable(List<Ingredient> playerIngredients)
-    {
-        base.SetItemAvailable(playerIngredients);
-    }
 
     public override bool CanBuild(RaycastHit hit)
     {

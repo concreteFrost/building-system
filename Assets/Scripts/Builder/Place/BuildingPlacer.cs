@@ -6,15 +6,14 @@ using System.Collections.Generic;
 public class BuildingPlacer : MonoBehaviour
 {
     private BuilderStore store;
-    public List<GameObject> buildingParts = new List<GameObject>();
     public GameObject partsParent;
     public GameObject currentPart;
-    public GameObject activeBuildingModePanel;
     private PlayerBuildingStore playerStore;
-
     public static UnityAction<SnapType> onPartChanged;
     public static UnityAction<SnapType> onPartPlaced;
+    public PlayerMoneyEventSO deductFromBalance;
     //public static UnityAction onBuildingModeToggle;
+    ActiveBuildingModePanelUI activeModePanelUI;
 
     public float zOffset = 5f;
     public float angle = 0f;
@@ -29,15 +28,7 @@ public class BuildingPlacer : MonoBehaviour
     {
         playerStore = GetComponentInParent<PlayerBuildingStore>();
         store = GetComponent<BuilderStore>();
-        store.parts.ForEach(x =>
-        {
-            GameObject part = Instantiate(x);
-            buildingParts.Add(part);
-            part.transform.SetParent(partsParent.transform);
-        });
-        HideAllParts();
-        SetActiveBuildingModePanelState(false);
-        
+        activeModePanelUI = GetComponentInChildren<ActiveBuildingModePanelUI>();
     }
 
 
@@ -132,8 +123,10 @@ public class BuildingPlacer : MonoBehaviour
             }
 
             TransformManipulator.ResetPosition(part);
-            playerStore.RemoveIngredient(part.partSO.ingredients);
-            part.SetItemAvailable(playerStore.ingredients);
+            playerStore.DeductFromBallance(part.partSO.itemPrice);
+            activeModePanelUI.RefreshStateInfo(playerStore.playerMoney, currentPart.GetComponent<Part>().partSO.itemName, currentPart.GetComponent<Part>().partSO.itemPrice);
+            deductFromBalance.Raise(currentPart.GetComponent<Part>().partSO.itemPrice);
+            store.CheckIfAffordable();
       
         }
 
@@ -144,7 +137,7 @@ public class BuildingPlacer : MonoBehaviour
     public void GetActivePrefab(int id)
     {
         angle = 0;
-        buildingParts.ForEach(x =>
+        store.parts.ForEach(x =>
         {
             if (x.GetComponent<Part>().partSO.id == id)
             {
@@ -160,19 +153,11 @@ public class BuildingPlacer : MonoBehaviour
 
         if(currentPart.GetComponent<Part>().partSO.partType == PartType.building)
         onPartChanged?.Invoke(currentPart.GetComponent<BuildingPart>().snapType);
+        activeModePanelUI.RefreshStateInfo(playerStore.playerMoney, currentPart.GetComponent<Part>().partSO.itemName, currentPart.GetComponent<Part>().partSO.itemPrice);
 
     }
 
 
-    public void HideAllParts()
-    {
-        buildingParts.ForEach(x => x.SetActive(false));
-    }
-
-    public void SetActiveBuildingModePanelState(bool isActive)
-    {
-        activeBuildingModePanel.SetActive(isActive);
-    }
-
+   
 
 }

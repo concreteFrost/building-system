@@ -8,7 +8,8 @@ public class ItemContainerUI : MonoBehaviour
 {
     public int id;
     public RawImage icon;
-    public TextMeshProUGUI text;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI priceText;
     public string sectionType;
     public string subSectionType;
     BuilderStateManager stateManager;
@@ -35,14 +36,15 @@ public class ItemContainerUI : MonoBehaviour
     //or build something
     public void ItemIsAvailable()
     {
-        var builderManager = GetComponentInParent<BuildingPlacer>();
+        var builderManager = GetComponentInParent<BuilderStore>();
         if (builderManager != null)
         {
-            var buildingPart = builderManager.buildingParts.FirstOrDefault(x => x.GetComponent<Part>().partSO.id == id).GetComponent<Part>();
+            var buildingPart = builderManager.parts.FirstOrDefault(x => x.GetComponent<Part>().partSO.id == id).GetComponent<Part>();
             if (buildingPart != null)
             {
                 icon.color = buildingPart.canAfford ? Color.white : Color.red;
                 icon.GetComponent<Button>().enabled = buildingPart.canAfford;
+               
             }
         }
 

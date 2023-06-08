@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f062a97c61e2ccc4082585b3cc9d235f, type: 3}
   m_Name: Rope
   m_EditorClassIdentifier: 
+  id: -1548663155
   ingredientType: 3
-  ingredientInstance: {fileID: 4596193941742443038, guid: a92d19f453c9fb047b48982b6e95bc60, type: 3}
+  ingredientInstance: {fileID: 2589928490152362478, guid: e578f6d0caa4feb428291947f511904c, type: 3}
+  ingredientPrice: 7
+  ingredientName: Rope
+  ingredientDescrption: A flexible and strong material made by twisting fibers together,
+    often used for tying objects or creating mechanisms.
+  ingedientIcon: {fileID: -2044868481, guid: 22ebc6583f1e5e34e894f90dde6d182d, type: 3}

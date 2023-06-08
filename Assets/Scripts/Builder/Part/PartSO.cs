@@ -13,7 +13,8 @@ public enum PartType
 public class PartSO : ScriptableObject
 {
     public int id;
-    public string name;
+    public string itemName;
+    public float itemPrice;
     public Sprite icon;
 
     public PartType partType;

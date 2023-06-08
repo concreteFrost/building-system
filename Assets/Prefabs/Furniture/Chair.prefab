@@ -66,11 +66,13 @@ MonoBehaviour:
   partSO: {fileID: 11400000, guid: 18f762fe93f085f48bf4f65a74a4fc0a, type: 2}
   overlapSize: {x: 0, y: 0, z: 0}
   overlapPosition: {x: 0, y: 0, z: 0}
-  buildingMaterial: {fileID: 0}
-  canAfford: 0
+  buildingMaterial: {fileID: 13400000, guid: 5eb134507cf31644896969b8739cc727, type: 2}
+  canAfford: 1
   isPlaced: 0
   isTouchingGround: 0
   isRequeriedOverlap: 0
+  isDestroyed: 0
+  addToPlayerBalance: {fileID: 11400000, guid: be7142bae66f8c046a93f665b1ae0671, type: 2}
 --- !u!1001 &9048045735808817178
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f062a97c61e2ccc4082585b3cc9d235f, type: 3}
   m_Name: Slate
   m_EditorClassIdentifier: 
+  id: 1711632468
   ingredientType: 4
   ingredientInstance: {fileID: 4596193941742443038, guid: a92d19f453c9fb047b48982b6e95bc60, type: 3}
+  ingredientPrice: 10
+  ingredientName: Slate
+  ingredientDescrption: A smooth and flat stone, often used for writing or as a decorative
+    surface.
+  ingedientIcon: {fileID: 1023612114, guid: 22ebc6583f1e5e34e894f90dde6d182d, type: 3}

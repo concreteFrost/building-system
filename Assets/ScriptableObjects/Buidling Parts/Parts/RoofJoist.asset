@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5412021667199e408c818591e8ee59d, type: 3}
+  m_Name: RoofJoist
+  m_EditorClassIdentifier: 
+  id: 7
+  itemName: Joist
+  itemPrice: 2
+  icon: {fileID: 21300000, guid: 17b973bdfa7f18b449fdca1e66966b14, type: 3}
+  partType: 0
+  description: Roof joists provide structural support for the roof, transferring
+    the weight of the roof to the walls and helping to maintain the integrity of
+    the building's structure
+  ingredients:
+  - ingredient: {fileID: 11400000, guid: a3396f4d40f757a4a9d495f542f96f50, type: 2}
+    quantity: 1
+  buildingType: 5

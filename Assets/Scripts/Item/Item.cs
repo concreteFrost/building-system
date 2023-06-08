@@ -19,7 +19,7 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact(GameObject other)
     {
-        other.transform.GetComponentInChildren<PlayerBuildingStore>().AddIngredient(itemIngredient);
+        
         Destroy(gameObject);
     }
 

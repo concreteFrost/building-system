@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-
+using UnityEngine.Events;
 
 public abstract class Part : OutlineObject
 {
@@ -20,8 +20,9 @@ public abstract class Part : OutlineObject
     public bool isPlaced = false;
     public bool isTouchingGround;
     public bool isRequeriedOverlap;
+    public bool isDestroyed = false;
 
-
+    public PlayerMoneyEventSO addToPlayerBalance;
     private void Awake()
     {
         objectRenderer = part.GetComponentsInChildren<MeshRenderer>();
@@ -55,27 +56,19 @@ public abstract class Part : OutlineObject
 
     public virtual void DestroyPrefab()
     {
+
         if (!isPlaced)
         {
             return;
         }
 
-    }
-
-    public virtual void SetItemAvailable(List<Ingredient> playerIngredients)
-    {
-
-        canAfford = true;
-        foreach (var ingredient in partSO.ingredients)
+        if (!isDestroyed)
         {
-            var playerIngredient = playerIngredients.FirstOrDefault(x => x.ingredient == ingredient.ingredient);
-            if (playerIngredient == null || playerIngredient.quantity < ingredient.quantity)
-            {
-
-                canAfford = false;
-                break;
-            }
+            addToPlayerBalance.Raise(partSO.itemPrice);
+            isDestroyed = true;
         }
+        
+
     }
 
     public virtual bool CheckOverlap()

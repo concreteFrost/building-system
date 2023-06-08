@@ -8,7 +8,8 @@ public enum FurnitureType
 {
     chair,
     table,
-    bed
+    bed,
+    bedsideTable
 }
 
 
